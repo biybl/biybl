@@ -17,7 +17,7 @@ angular.module('biyblApp')
         })
         .then( function() {
           // Account created, redirect to home
-          $location.path('/');
+          $location.path('/verses');
         })
         .catch( function(err) {
           err = err.data;
