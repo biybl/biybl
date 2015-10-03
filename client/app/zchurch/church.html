@@ -9,7 +9,15 @@
 <div class="container" ng-hide="langu"> 
 	<ul class="nav centered lang-buttons">
 		<li ng-repeat="(key, language) in dbpGrabber.langmap | orderBy: 'key' ">
-		    <button type="submit" class="btn btn-primary" ng-click="set_language('en');">{{ key }} - {{ language[2] }}</button>
+		    <button type="submit" class="btn btn-primary" ng-click="set_language(key);">{{ key }} - {{ language[2] }}</button>
+		</li>
+	</ul>
+</div>
+
+<div class="container" ng-show="langu"> 
+	<ul class="nav centered lang-buttons">
+		<li>
+	  		<button type="submit" class="btn btn-primary " ng-click="remove_language();">Change Language</button>
 		</li>
 	</ul>
 </div>

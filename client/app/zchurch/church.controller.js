@@ -22,29 +22,22 @@ angular.module('biyblApp')
 	      console.log("MainCtrl/loading/$scope.churches", $scope.refs);
 	      if (callback) callback();
 		}, function(err){
-	      console.log("MainCtrl/loading/$scope.churches", err);
 	      if (callback) callback();
 		});
     };
 
+    $scope.remove_language = function() {
+    	$scope.langu = null;
+    };
 
     $scope.set_language = function(lang) {
     	$scope.langu = lang;
     	console.log("lang", lang);
     	$scope.get_passages(function() {
     		console.log("in get_passages");
-	    	bcvParser.clear_texts();
-    		console.log("cleared");
-    		console.log("refs", $scope.refs.length);
-	    	for(var i=0; i < $scope.refs.length; i++) {
-    			console.log("call bcvParser verse", $scope.refs[i]);
-    			console.log("call bcvParser lang", lang);
-	    		bcvParser.fetch($scope.refs[i],lang);
-	    	}    		
+	    	bcvParser.set_refs($scope.refs, lang, true);
 	    	console.log("Passages", bcvParser.passages);
     	});
     };
-
-    $scope.get_passages(function(){});
 
   });
