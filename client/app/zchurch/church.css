@@ -1,0 +1,8 @@
+ul.lang-buttons {
+	margin-top: 12px;
+}
+
+ul.lang-buttons li button{
+	min-width: 200px;
+	margin: 8px;
+}

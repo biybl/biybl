@@ -13,6 +13,7 @@ router.get('/me', auth.isAuthenticated(), controller.me);
 router.get('/all', controller.list);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.put('/:id/passage', auth.isAuthenticated(), controller.savePassage);
+router.get('/:id/passage', controller.getChurchPassages);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
 

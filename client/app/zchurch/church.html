@@ -1,0 +1,29 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>Welcome to {{church_name}}</h1>
+    <p class="lead" ng-hide="langu">Choose your your language</p>
+  </div>
+</header>
+<div class="container" ng-hide="langu"> 
+	<ul class="nav centered lang-buttons">
+		<li ng-repeat="(key, language) in dbpGrabber.langmap | orderBy: 'key' ">
+		    <button type="submit" class="btn btn-primary" ng-click="set_language('en');">{{ key }} - {{ language[2] }}</button>
+		</li>
+	</ul>
+</div>
+
+<div class="container" ng-show="langu">
+  <div class="row">
+    <div class="col-lg-12">
+      <ul class="nav nav-tabs nav-stacked col-md-12 col-lg-12 col-sm-12" ng-repeat="reference in bcvParser.passages">
+        <li>
+        	<p ng-bind-html="reference.text"></p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+

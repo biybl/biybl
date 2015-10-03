@@ -90,6 +90,7 @@ angular.module('biyblApp')
       },
 
       clear_texts: function() {
+        var self = this;
         for (var i = 0; i < self.passages.length; i++) {
           self.passages[i]['text'] = "";
         }

@@ -33,6 +33,21 @@ exports.list = function(req, res){
   });
 }
 
+
+/**
+ * Get list of churches passages
+ * restriction: 'none'
+ */
+exports.getChurchPassages = function(req, res){
+  console.log("user.controller/getChurchPassages/made it");
+  User.find({name: req.params.id}, '-salt -hashedPassword -email', function (err, users) {
+    if(err) return res.status(500).send(err);
+    console.log("user.controller/getChurchPassages/made it", users);
+    //res.render(users);
+    res.status(200).json(users);
+  });
+}
+
 /**
  * Creates a new user
  */
