@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('biyblApp')
-  .service('dbpGrabber', function () {
+  .service('dbpGrabber', function ($http) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
     return {
@@ -107,6 +107,7 @@ angular.module('biyblApp')
         }).catch(function(e) {
           throw e;
         });
+        return promise;
       },
 
       // range: either "Gen.1.1-Gen.1.3" or "Gen.1.1"
@@ -114,9 +115,9 @@ angular.module('biyblApp')
       osiRangeToVerse: function(range, lang) {
         var pairs = range.split('-');
         if (pairs.length == 2)
-          this.osiToVerse(range, lang, pairs[0], pairs[1]);
+          return this.osiToVerse(range, lang, pairs[0], pairs[1]);
         else
-          this.osiToVerse(range, lang, pairs[0], pairs[0]);
+          return this.osiToVerse(range, lang, pairs[0], pairs[0]);
       },
 
       copyrightString: function(lang) {
@@ -139,6 +140,7 @@ angular.module('biyblApp')
         }).catch(function(e) {
           throw e;
         });
+        return promise;
       }
     };
   });
