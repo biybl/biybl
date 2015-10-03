@@ -137,18 +137,20 @@ angular.module('biyblApp')
         var firstComps = first.split('.');
         var lastComps = last.split('.');
         var book = firstComps[0];
-        var c1 = firstComps[1];
-        var c2 = lastComps[1];
+        var c1 = parseInt(firstComps[1]);
+        var c2 = parseInt(lastComps[1]);
         var promises = [];
         // do the first (probably partial) chapter
         var endOfChapter = [book, c1, "999"].join('.');  // invalid verse number, but the API does the right thing
         promises.push(this.osiToVerse(lang, first, endOfChapter));
         // do the chapters between first and last
-        c = c + 1;
-        while (c < c2) {
-          var oneChapter = book + '.' + c;    // no verse number means entire chapter
+        c1 = c1 + 1;
+        while (c1 < c2) {
+          console.log(c1);
+          console.log(c2);
+          var oneChapter = book + '.' + c1;    // no verse number means entire chapter
           promises.push(this.osiToVerse(lang, oneChapter, oneChapter));
-          c = c + 1;
+          c1 = c1 + 1;
         }
         // do the last (probably partial) chapter
         var startOfChapter = [book, c2, "1"].join('.');

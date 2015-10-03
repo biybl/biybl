@@ -93,25 +93,41 @@ angular.module('biyblApp')
         //  verse_text: Text of the verse
         //  paragraph_number: Number of paragraph; add para break when increments
         var output = "";
-        output = output + "<h2>" + verses[0]['book_name'] + " "
-                        + verses[0]['chapter_id'] + "</h2>\n\n";
-        output = output + "<p>\n";
 
         var current_para = verses[0]['paragraph_number'];
+        var current_chapter_id = "0";
+
         for (var i = 0; i < verses.length; i++) {
           var verse = verses[i];
 
           // Deal with paragraph increments
+          // XXX paragraph_number doesn't, sadly, do what we want :-(
           if (verse['paragraph_number'] != current_para) {
-            output = output + "</p>\n<p>\n";
             current_para = verse['paragraph_number'];
+
+            output = output + "</p>\n<p>\n";
           }
 
-          // Need to deal with chapter increments here when we support them
+          // Deal with chapter increments
+          // XXX We don't support this properly yet everywhere, and when we do,
+          // this will need to handle ranges better
+          if (verse['chapter_id'] != current_chapter_id) {
+            current_chapter_id = verse['chapter_id'];
+
+            output = output + "<h2>" + verses[0]['book_name'] + " "
+                            + verses[0]['chapter_id'] + ":"
+                            + verses[0]['verse_id'];
+            if (verses.length > 1) {
+              output = output + "-" + verses[verses.length - 1]['verse_id'];
+            }
+
+            output = output + "</h2>\n\n";
+            output = output + "<p>\n";
+          }
 
           output = output + "<span class='verseno'>" + verse['verse_id'];
           output = output + "</span><span class='verse'>" + verse['verse_text'];
-          output = output + "</span>\n"
+          output = output + "</span> \n"
         }
 
         output = output + "\n</p>";
