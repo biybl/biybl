@@ -17,6 +17,10 @@ angular.module('biyblApp')
       ref_str: "",  // Results of previous parse in parse_ref_and_fetch
 
       parse_ref_and_fetch: function(input) {
+        if (input.trim() == "") {
+          return;
+        }
+
         var new_ref_str = bcv.parse(input).osis();
         var self = this;
 
@@ -99,6 +103,10 @@ angular.module('biyblApp')
         //  verse_id: number of verse (e.g. "2")
         //  verse_text: Text of the verse
         //  paragraph_number: Number of paragraph; add para break when increments
+        if (verses.length == 0) {
+          return "";
+        }
+
         var output = "";
 
         var current_para = verses[0]['paragraph_number'];

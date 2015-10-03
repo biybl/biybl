@@ -2,11 +2,10 @@
 
 angular.module('biyblApp')
   .service('dbpGrabber', function ($http, $q) {
-    // AngularJS will instantiate a singleton by calling "new" on this function
-
     return {
 
       devkey: "f241660c7e9b26ddf60d73b1d9fe5856",
+
       langmap: {
         'ar': ['ARZVDVO2ET', 'ARZVDVN2ET', 'العربية'],
         'bg': ['BULBBSO2ET', 'BULBBSN2ET', 'Български'],
@@ -16,27 +15,27 @@ angular.module('biyblApp')
         'de': ['GERD71O2ET', 'GERD71N2ET', 'Deutsch'],
         'en': ['ENGESVO2ET', 'ENGESVN2ET', 'English'],
         'es': ['SPNWTCO1ET', 'SPNWTCN1ET', 'Español'],
-        'fa': ['',           'PESTPVN2ET', 'پارسی'],
+//        'fa': ['',           'PESTPVN2ET', 'پارسی'],
         'fr': ['FRNPDCO2ET', 'FRNPDCN2ET', 'Français'],
-        'hi': ['',           'HNSWBTN2ET', 'हिन्दी'],
+//        'hi': ['',           'HNSWBTN2ET', 'हिन्दी'],
         'hr': ['HRVCBVO2ET', 'HRVCBVN2ET', 'Hrvatski'],
         'hu': ['HUNK90O2ET', 'HUNK90N2ET', 'Magyar'],
         'id': ['INZNTVO2ET', 'INZNTVN2ET', 'Bahasa Indonesia'],
         'it': ['ITAR27O2ET', 'ITAR27N2ET', 'Italiano'],
-        'kr': ['',           '',           '한국의'],
-        'ku': ['',           '',           'سۆرانی'],
-        'mr': ['',           'MARWTCN1ET', 'मराठी'],
+//        'kr': ['',           '',           '한국의'],
+//        'ku': ['',           '',           'سۆرانی'],
+//        'mr': ['',           'MARWTCN1ET', 'मराठी'],
         'nl': ['NLDDSVO2ET', 'NLDDSVN2ET', 'Nederlands'],
-        'no': ['',           '',           'Norsk'],
-        'pa': ['',           'PANWTCN2ET', 'ਪੰਜਾਬੀ'],
+//        'no': ['',           '',           'Norsk'],
+//        'pa': ['',           'PANWTCN2ET', 'ਪੰਜਾਬੀ'],
         'pl': ['POLPBGO2ET', 'POLPBGN2ET', 'Polski'],
         'pt': ['PORBSPO2ET', 'PORBSPN2ET', 'Português'],
-        'ro': ['',           'RONBSRN2ET', 'Română'],
+//        'ro': ['',           'RONBSRN2ET', 'Română'],
         'ru': ['RUSS76O2ET', 'RUSS76N2ET', 'Русский'],
         'so': ['SOMSIMO2ET', 'SOMSIMN2ET', 'Somali'],
         'sq': ['ALSABVO2ET', 'ALSABVN2ET', 'Shqip'],
-        'sr': ['',           '',           'Српски'],
-        'ur': ['',           '',           'اردو'],
+//        'sr': ['',           '',           'Српски'],
+//        'ur': ['',           '',           'اردو'],
         'zh_simp': ['CHNUN1O2ET', 'CHNUN1N2ET', '汉语'],
         'zh_trad': ['CHNUNVO2ET', 'CHNUNVN2ET', '汉语'],
       },
@@ -59,42 +58,56 @@ angular.module('biyblApp')
           ret = ret + "&verse_start=" + parts[2];
           if (ref != ref2) {
             var parts2 = ref2.split('.');
-            if ((parts[0] != parts2[0]) || (parts[1] != parts2[1]))
+            if ((parts[0] != parts2[0]) || (parts[1] != parts2[1])) {
               throw('Cross-chapter references are not supported by the api');
+            }
+
             ret = ret + "&verse_end=" + parts2[2];
           }
         } else if (parts.length == 2) {  // entire chapter
           // no change
-        } else
+        } else {
           throw(['Unusual osiRef', ref]);
+        }
+
         return ret;
       },
 
       // given a language and a reference (used only for the book),
       // returns the DAM ID (digitalbibleplatform's translation identifier)
       getDam: function(lang, ref) {
+        // Default to New Testament
         var damIndex = 1;
-        if (ref.split('.')[0] in this.ot_books)
+        if (this.ot_books.indexOf(ref.split('.')[0]) != -1) {
+          // Old Testament
           damIndex = 0;
+        }
+
         if (!(lang in this.langmap)) {
           // Unknown language; fall back to English.
           // TODO fall back to a customizable language
           lang = "en";
         }
+
         var dam = this.langmap[lang][damIndex];
+
         // Some languages haven't an OT; in that case fall back to English
         // TODO fall back to a customizable language
-        if (!dam)
+        if (!dam) {
           dam = this.langmap['en'][damIndex];
+        }
+
         return dam;
       },
 
-      // turns "Gen.1.1" and "Gen.1.5" into array of verse data
-      // e.g.: http://dbt.io/text/verse?v=2&key=f241660c7e9b26ddf60d73b1d9fe5856&dam_id=FRNDBYN2ET&book_id=Rev&chapter_id=1&verse_start=1&verse_end=2&markup=osis
+      // Turns "Gen.1.1" and "Gen.1.5" into array of verse data
       osiToVerse: function(lang, first, last) {
         var self = this;
-        
+
         var promise = $q(function(resolve, reject) {
+          // URL example:
+          // http://dbt.io/text/verse?v=2&key=XXX&dam_id=FRNDBYN2ET
+          //   &book_id=Rev&chapter_id=1&verse_start=1&verse_end=2&markup=osis
           var url = "http://dbt.io/text/verse?v=2";
           url = url + "&key=" + self.devkey;
           url = url + "&markup=osis";
