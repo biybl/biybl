@@ -1,0 +1,33 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>Church Verse Selection</h1>
+    <p class="lead">Choose your verses</p>
+  </div>
+</header>
+
+<div class="container">
+  <form class="thing-form">
+    <p class="input-group">
+      <input type="text" class="form-control" placeholder="Enter bible verses..." ng-model="ref_list">
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-primary" ng-click="get_refs()">Get Verses</button>
+      </span>
+    </p>
+  </form>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Bible References:</h1>
+      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="reference in bvcParser.passages">
+        <li>
+        	<h4>{{reference.ref}}</h4>
+        	<p>{{reference.text}}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+

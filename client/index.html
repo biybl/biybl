@@ -23,6 +23,7 @@
       <link rel="stylesheet" href="app/admin/admin.css">
       <link rel="stylesheet" href="app/app.css">
       <link rel="stylesheet" href="app/main/main.css">
+      <link rel="stylesheet" href="app/verses/verses.css">
       <link rel="stylesheet" href="components/modal/modal.css">
       <!-- endinjector -->
     <!-- endbuild -->
@@ -34,6 +35,20 @@
 
     <!-- Add your site or application content here -->
     <div ng-view=""></div>
+
+
+    <footer class="footer">
+      <div class="container">
+          <p>
+            Built by BIYBL team at C4TK Global Hackathon |
+            <a href="https://twitter.com/cogiva">@cogiva</a>,
+            <a href="https://twitter.com/gerv">@gerv</a>,
+            <a href="https://twitter.com/DavidFedor">@DavidFedor</a>
+             |
+             <a href="hhttps://github.com/biybl/biybl/issues?state=open">Issues</a>
+          </p>
+      </div>
+    </footer>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
@@ -52,7 +67,6 @@
     <![endif]-->
     <!-- build:js({client,node_modules}) app/vendor.js -->
       <!-- bower:js -->
-      <script src="../bower_components/bcv-parser/en_bcv_parser.min.js"></script>
       <script src="../bower_components/jquery/dist/jquery.js"></script>
       <script src="../bower_components/angular/angular.js"></script>
       <script src="../bower_components/angular-resource/angular-resource.js"></script>
@@ -78,8 +92,11 @@
           <script src="app/admin/admin.controller.js"></script>
           <script src="app/admin/admin.js"></script>
           <script src="app/bcvParser/bcvParser.service.js"></script>
+          <script src="app/dbpGrabber/dbpGrabber.service.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
+          <script src="app/verses/verses.controller.js"></script>
+          <script src="app/verses/verses.js"></script>
           <script src="components/auth/auth.service.js"></script>
           <script src="components/auth/user.service.js"></script>
           <script src="components/modal/modal.service.js"></script>
