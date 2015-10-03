@@ -2,8 +2,6 @@
 
 angular.module('biyblApp')
   .service('bcvParser', function (dbpGrabber) {
-    // AngularJS will instantiate a singleton by calling "new" on this function
-
     var bcv = new bcv_parser;
 
     bcv.set_options({
@@ -12,12 +10,13 @@ angular.module('biyblApp')
     });
 
     return {
-      ref_str: "",  // Results of previous parse
       texts: {},    // Cache of texts from text grabber
-      passages: [], // Return value - array of hashes, where hash has 'ref'
-                    // and 'text' members
+      passages: [], // Passages currently important to the user - an array of
+                    // hashes, where each hash has 'ref' and 'text' members
 
-      parse_ref_and_fetch: function(input, callback) {
+      ref_str: "",  // Results of previous parse in parse_ref_and_fetch
+
+      parse_ref_and_fetch: function(input) {
         var new_ref_str = bcv.parse(input).osis();
         var self = this;
 
@@ -44,14 +43,11 @@ angular.module('biyblApp')
           for (var i = 0; i < self.passages.length; i++) {
             var passage = self.passages[i];
 
-            // Always in English for now, for admin UI
-            if (1) { // XXX caching disabled (passage['text'] == "") {
+            // Admin UI is always in English for now
+            if (passage['text'] == "") {
               self.fetch(passage['ref'], 'en');
             }
           }
-          if (callback) callback();
-        } else {
-          if (callback) callback();
         }
       },
 
@@ -119,9 +115,10 @@ angular.module('biyblApp')
             output = output + "</p>\n<p>\n";
           }
 
-          // Deal with chapter increments
-          // XXX We don't support this properly yet everywhere, and when we do,
-          // this will need to handle ranges better
+          // Deal with chapter headings
+          // XXX We don't support cross-chapter references properly yet
+          // everywhere, and when we do, this will need to handle displaying
+          // ranges better
           if (verse['chapter_id'] != current_chapter_id) {
             current_chapter_id = verse['chapter_id'];
 
