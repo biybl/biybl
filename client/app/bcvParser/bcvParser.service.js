@@ -80,17 +80,19 @@ angular.module('biyblApp')
 
         self.texts[ref] = text;
 
-      // Need to search for passage again because it may have moved
-      // or disappeared when a callback arrives
-      for (var i = 0; i < self.passages.length; i++) {
+        // Need to search for passage again because it may have moved
+        // or disappeared when a callback arrives
+        for (var i = 0; i < self.passages.length; i++) {
           if (self.passages[i]['ref'] == ref) {
             self.passages[i]['text'] = text;
           }
         }
       },
 
-      clear_passages: function() {
-        this.passages = [];
+      clear_texts: function() {
+        for (var i = 0; i < self.passages.length; i++) {
+          self.passages[i]['text'] = "";
+        }
       },
 
       // Take an array of DBP verse objects and turn into HTML for display
