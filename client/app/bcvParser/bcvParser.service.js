@@ -30,7 +30,7 @@ angular.module('biyblApp')
           var new_passages = [];
 
           for (var i = 0; i < refs.length; i++) {
-            ref = refs[i];
+            var ref = refs[i];
             new_passages[i] = {
               'ref': ref,
               'text': self.texts[ref] || ""
@@ -44,33 +44,9 @@ angular.module('biyblApp')
           for (var i = 0; i < self.passages.length; i++) {
             var passage = self.passages[i];
 
-            if (1) { // (passage['text'] == "") {
-              var ref = passage['ref'];
-              // Dispatch request for text (always in English for now)
-              var promise = dbpGrabber.osiRangeToVerse(ref, 'en');
-
-              // Handle returned text
-              promise.then(function success(response) {
-                // Need to search for passage again because it may have moved
-                // or disappeared when the callback arrives
-                for (var j = 0; j < self.passages.length; j++) {
-                  if (self.passages[j]['ref'] == ref) {
-                    var text = self.format_verses(response);
-                    // Update the output value
-                    response['text'] = text;
-                    self.passages[j] = {
-                      'ref': ref,
-                      'text': text,
-                    };
-
-                    // Store the returned text for later
-                    self.texts[ref] = text;
-                  }
-                }
-              }, function error(e) {
-                // Some error occurred
-                passage['text'] = "Unable to obtain Bible text";
-              });
+            // Always in English for now, for admin UI
+            if (1) { // XXX caching disabled (passage['text'] == "") {
+              self.fetch(passage['ref'], 'en');
             }
           }
           if (callback) callback();
@@ -79,6 +55,41 @@ angular.module('biyblApp')
         }
       },
 
+      // Fetch an OSIS reference for a particular language and store
+      fetch: function(ref, lang) {
+        var self = this;
+
+        // Dispatch request for text
+        var promise = dbpGrabber.osiRangeToVerse(ref, lang);
+
+        // Handle returned text
+        promise.then(function success(response) {
+          var text = self.format_verses(response);
+          self.update_passage_text(ref, text);
+        }, function error(e) {
+          // Some error occurred
+          self.update_passage_text(ref, "<span class='error'>Unable to " +
+                                        "obtain Bible text.</span>");
+        });
+      },
+
+      // Store fetched passage in text cache and passages array (if still
+      // needed)
+      update_passage_text: function(ref, text) {
+        var self = this;
+
+        self.texts[ref] = text;
+
+      // Need to search for passage again because it may have moved
+      // or disappeared when a callback arrives
+      for (var i = 0; i < self.passages.length; i++) {
+          if (self.passages[i]['ref'] == ref) {
+            self.passages[i]['text'] = text;
+          }
+        }
+      },
+
+      // Take an array of DBP verse objects and turn into HTML for display
       format_verses: function(verses) {
         // Ideally, all this would use templates...
         //
