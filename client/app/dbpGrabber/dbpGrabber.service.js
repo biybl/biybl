@@ -110,9 +110,9 @@ angular.module('biyblApp')
       osiRangeToVerse: function(range, lang) {
         var pairs = range.split('-');
         if (pairs.length == 2)
-          osiToVerse(range, lang, range[0], range[1]);
+          osiToVerse(range, lang, pairs[0], pairs[1]);
         else
-          osiToVerse(range, lang, range[0], range[0]);
+          osiToVerse(range, lang, pairs[0], pairs[0]);
       },
     }
   });
