@@ -91,7 +91,7 @@ angular.module('biyblApp')
 
       // turns "Gen.1.1" and "Gen.1.5" into array of verse data
       // e.g.: http://dbt.io/text/verse?v=2&key=f241660c7e9b26ddf60d73b1d9fe5856&dam_id=FRNDBYN2ET&book_id=Rev&chapter_id=1&verse_start=1&verse_end=2&markup=osis
-      osiToVerse: function(range, lang, first, last) {
+      osiToVerse: function(lang, first, last) {
         var self = this;
         var url = "http://dbt.io/text/verse?v=2";
         url = url + "&key=" + self.devkey;
@@ -99,25 +99,64 @@ angular.module('biyblApp')
         url = url + "&dam_id=" + self.getDam(lang, first);
         url = url + self.refToDBPParams(first, last);
 
-        self.ref = range;
         var promise = $http.get(url);
-        promise.then(function(response) {
+        var promise2 = promise.then(function(response) {
           console.log(response.data);
           self.text = response.data;
+          return response.data;
         }).catch(function(e) {
           throw e;
         });
-        return promise;
+        return promise2;
+      },
+
+      combineResults: function(results) {
+        var ret = [];
+        for (var i = 0; i < results.length; i++)
+          ret = ret.concat(results[i]);
+        return ret;
+      },
+
+      combineFetches: function(lang, first, last) {
+        var firstComps = first.split('.');
+        var lastComps = last.split('.');
+        var book = firstComps[0];
+        var c1 = firstComps[1];
+        var c2 = lastComps[1];
+        var promises = [];
+        // do the first (probably partial) chapter
+        var endOfChapter = [book, c1, "999"].join('.');  // invalid verse number, but the API does the right thing
+        promises.push(this.osiToVerse(lang, first, endOfChapter));
+        // do the chapters between first and last
+        c = c + 1;
+        while (c < c2) {
+          var oneChapter = book + '.' + c;    // no verse number means entire chapter
+          promises.push(this.osiToVerse(lang, oneChapter, oneChapter));
+          c = c + 1;
+        }
+        // do the last (probably partial) chapter
+        var startOfChapter = [book, c2, "1"].join('.');
+        promises.push(this.osiToVerse(lang, startOfChapter, last));
+        var combinePromise = promises.Foo().then(function(result) {
+          return combineResults(result);
+        });
+        return combinePromise;
       },
 
       // range: either "Gen.1.1-Gen.1.3" or "Gen.1.1"
       // lang: something like "en" or "fr"
       osiRangeToVerse: function(range, lang) {
         var pairs = range.split('-');
-        if (pairs.length == 2)
-          return this.osiToVerse(range, lang, pairs[0], pairs[1]);
-        else
-          return this.osiToVerse(range, lang, pairs[0], pairs[0]);
+        if (pairs.length == 2) {  // it is a range; there's a dash.
+          var c1 = pairs[0].split('.')[1];
+          var c2 = pairs[1].split('.')[1];
+          if (c1 == c2)
+            return this.osiToVerse(lang, pairs[0], pairs[1]);
+          else
+            return this.combineFetches(lang, pairs[0], pairs[1]);
+        } else {
+          return this.osiToVerse(lang, pairs[0], pairs[0]);
+        }
       },
 
       copyrightString: function(lang) {
