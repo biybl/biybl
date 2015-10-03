@@ -74,31 +74,31 @@ angular.module('biyblApp')
       // returns the DAM ID (digitalbibleplatform's translation identifier)
       getDam: function(lang, ref) {
         var damIndex = 1;
-        if (ref.split('.')[0] in ot_books)
+        if (ref.split('.')[0] in this.ot_books)
           damIndex = 0;
-        if (!(lang in langmap)) {
+        if (!(lang in this.langmap)) {
           // Unknown language; fall back to English.
           // TODO fall back to a customizable language
           lang = "en";
         }
-        var dam = langmap[lang][damIndex];
+        var dam = this.langmap[lang][damIndex];
         // Some languages haven't an OT; in that case fall back to English
         // TODO fall back to a customizable language
         if (!dam)
-          dam = langmap['en'][damIndex];
+          dam = this.langmap['en'][damIndex];
         return dam;
       },
 
       // turns "Gen.1.1" and "Gen.1.5" into array of verse data
       // e.g.: http://dbt.io/text/verse?v=2&key=f241660c7e9b26ddf60d73b1d9fe5856&dam_id=FRNDBYN2ET&book_id=Rev&chapter_id=1&verse_start=1&verse_end=2&markup=osis
       osiToVerse: function(range, lang, first, last) {
-        var url = "http://dbt.io/text/verse?v=2";
-        url = url + "&key=" + devkey;
-        url = url + "&markup=osis";
-        url = url + "&dam_id=" + getDam(lang, first);
-        url = url + refToDBPParams(first, last);
-
         var self = this;
+        var url = "http://dbt.io/text/verse?v=2";
+        url = url + "&key=" + self.devkey;
+        url = url + "&markup=osis";
+        url = url + "&dam_id=" + self.getDam(lang, first);
+        url = url + self.refToDBPParams(first, last);
+
         self.ref = range;
         var promise = $http.get(url);
         promise.then(function(response) {
@@ -114,16 +114,16 @@ angular.module('biyblApp')
       osiRangeToVerse: function(range, lang) {
         var pairs = range.split('-');
         if (pairs.length == 2)
-          osiToVerse(range, lang, pairs[0], pairs[1]);
+          this.osiToVerse(range, lang, pairs[0], pairs[1]);
         else
-          osiToVerse(range, lang, pairs[0], pairs[0]);
+          this.osiToVerse(range, lang, pairs[0], pairs[0]);
       },
 
       copyrightString: function(lang) {
         // http://dbt.io/library/metadata?key=f241660c7e9b26ddf60d73b1d9fe5856&dam_id=GERD71O2ET&v=2
         var url = "http://dbt.io/library/metadata?v=2";
-        url = url + "&key=" + devkey;
-        url = url + "&dam_id=" + getDam(lang, "Rev.1.1");  // the NT exists more often than the OT
+        url = url + "&key=" + this.devkey;
+        url = url + "&dam_id=" + this.getDam(lang, "Rev.1.1");  // the NT exists more often than the OT
         var self = this;
         var promise = $http.get(url);
         promise.then(function(response) {
