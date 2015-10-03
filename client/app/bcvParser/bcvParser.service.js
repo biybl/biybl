@@ -30,28 +30,7 @@ angular.module('biyblApp')
 
           // Construct an array of passages and texts
           var refs = self.ref_str.split(",");
-          var new_passages = [];
-
-          for (var i = 0; i < refs.length; i++) {
-            var ref = refs[i];
-            new_passages[i] = {
-              'ref': ref,
-              'text': self.texts[ref] || ""
-            };
-          };
-
-          // Swap in the newly-constructed passages array
-          self.passages = new_passages;
-
-          // Dispatch async request for any missing Bible texts
-          for (var i = 0; i < self.passages.length; i++) {
-            var passage = self.passages[i];
-
-            // Admin UI is always in English for now
-            if (passage['text'] == "") {
-              self.fetch(passage['ref'], 'en');
-            }
-          }
+          self.set_refs(refs);
         }
       },
 
@@ -89,10 +68,33 @@ angular.module('biyblApp')
         }
       },
 
-      clear_texts: function() {
+      set_refs: function(refs, clear) {
         var self = this;
+        var new_passages = [];
+
+        if (clear) {
+          self.texts = {};
+        }
+
+        for (var i = 0; i < refs.length; i++) {
+          var ref = refs[i];
+          new_passages[i] = {
+            'ref': ref,
+            'text': self.texts[ref] || ""
+          };
+        };
+
+        // Swap in the newly-constructed passages array
+        self.passages = new_passages;
+
+        // Dispatch async request for any missing Bible texts
         for (var i = 0; i < self.passages.length; i++) {
-          self.passages[i]['text'] = "";
+          var passage = self.passages[i];
+
+          // Admin UI is always in English for now
+          if (passage['text'] == "") {
+            self.fetch(passage['ref'], 'en');
+          }
         }
       },
 
