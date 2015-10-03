@@ -72,6 +72,22 @@ exports.destroy = function(req, res) {
 };
 
 /**
+ * Save users passages
+ */
+exports.savePassage = function(req, res, next) {
+  var userId = req.user._id;
+  var passages = String(req.body.passages);
+
+  User.findById(userId, function (err, user) {
+      user.passages = passages;
+      user.save(function(err) {
+        if (err) return validationError(res, err);
+        res.status(200).send('OK');
+      });
+  });
+};
+
+/**
  * Change a users password
  */
 exports.changePassword = function(req, res, next) {

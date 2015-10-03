@@ -43,3 +43,14 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+p span.verseno {
+    vertical-align: super;
+    padding: 0px 3px;
+    font-size: 0.8em;
+}
+
+.right-align {
+    text-align: right;
+    margin: 15px 0px;
+}

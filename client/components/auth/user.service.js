@@ -17,6 +17,12 @@ angular.module('biyblApp')
         params: {
           id:'me'
         }
+      },
+      savePassage: {
+        method: 'put',
+        params: {
+          controller: 'passage'
+        }
       }
 	  });
   });
