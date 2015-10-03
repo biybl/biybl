@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('biyblApp')
-  .service('dbpGrabber', function ($http) {
+  .service('dbpGrabber', function ($http, $q) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
     return {
@@ -94,19 +94,33 @@ angular.module('biyblApp')
       osiToVerse: function(lang, first, last) {
         var self = this;
         
-        var promise = new Promise(function(resolve, reject) {          
+        var promise = $q(function(resolve, reject) {
           var url = "http://dbt.io/text/verse?v=2";
           url = url + "&key=" + self.devkey;
           url = url + "&markup=osis";
           url = url + "&dam_id=" + self.getDam(lang, first);
           url = url + self.refToDBPParams(first, last);
 
-          $http.get(url).then(function success(response) {
-            console.log(response.data);
-            resolve(response.data);
-          }, function error(response) {
+// Angular's $http seems to be made of fail :-(
+//
+//          $http.get(url).then(function success(response) {
+//            console.log(response.data);
+//            resolve(response.data);
+//          }, function error(response) {
+//            reject(Error("It broke!"));
+//          });
+
+          var myRequest = new XMLHttpRequest();
+          myRequest.addEventListener("load", function(response) {
+            resolve(JSON.parse(myRequest.responseText));
+          });
+
+          myRequest.addEventListener("error", function(response) {
             reject(Error("It broke!"));
-          });          
+          });
+
+          myRequest.open("GET", url);
+          myRequest.send();
         });
 
         return promise;

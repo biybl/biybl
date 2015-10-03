@@ -50,13 +50,12 @@ angular.module('biyblApp')
               var promise = dbpGrabber.osiRangeToVerse(ref, 'en');
 
               // Handle returned text
-              promise.then(function(response) {
+              promise.then(function success(response) {
                 // Need to search for passage again because it may have moved
                 // or disappeared when the callback arrives
                 for (var j = 0; j < self.passages.length; j++) {
                   if (self.passages[j]['ref'] == ref) {
-                    text = self.format_verses(response);
-
+                    var text = self.format_verses(response);
                     // Update the output value
                     response['text'] = text;
                     self.passages[j] = {
@@ -68,10 +67,10 @@ angular.module('biyblApp')
                     self.texts[ref] = text;
                   }
                 }
-              }).catch(function(e) {
+              }, function error(e) {
                 // Some error occurred
                 passage['text'] = "Unable to obtain Bible text";
-              })
+              });
             }
           }
           if (callback) callback();
