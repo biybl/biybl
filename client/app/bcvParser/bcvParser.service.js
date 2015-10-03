@@ -11,6 +11,7 @@ angular.module('biyblApp')
 
     return {
       texts: {},    // Cache of texts from text grabber
+      text_lang = "en"; // Language of text cache
       passages: [], // Passages currently important to the user - an array of
                     // hashes, where each hash has 'ref' and 'text' members
 
@@ -28,9 +29,10 @@ angular.module('biyblApp')
         if (new_ref_str != self.ref_str) {
           self.ref_str = new_ref_str;
 
-          // Construct an array of passages and texts
           var refs = self.ref_str.split(",");
-          self.set_refs(refs);
+
+          // Admin UI is always in English for now
+          self.set_refs(refs, 'en');
         }
       },
 
@@ -68,11 +70,13 @@ angular.module('biyblApp')
         }
       },
 
-      set_refs: function(refs, clear) {
+      set_refs: function(refs, lang) {
         var self = this;
         var new_passages = [];
 
-        if (clear) {
+        if (text_lang != lang) {
+          // Language change - clear cache
+          text_lang = lang;
           self.texts = {};
         }
 
@@ -91,9 +95,8 @@ angular.module('biyblApp')
         for (var i = 0; i < self.passages.length; i++) {
           var passage = self.passages[i];
 
-          // Admin UI is always in English for now
           if (passage['text'] == "") {
-            self.fetch(passage['ref'], 'en');
+            self.fetch(passage['ref'], lang);
           }
         }
       },
