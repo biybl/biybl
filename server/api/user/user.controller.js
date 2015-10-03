@@ -21,6 +21,19 @@ exports.index = function(req, res) {
 };
 
 /**
+ * Get list of churches
+ * restriction: 'none'
+ */
+exports.list = function(req, res){
+  console.log("user.controller/list/made it");
+  //res.status(200).json("");
+  User.find({}, '-salt -hashedPassword -email', function (err, users) {
+    if(err) return res.status(500).send(err);
+    res.status(200).json(users);
+  });
+}
+
+/**
  * Creates a new user
  */
 exports.create = function (req, res, next) {
