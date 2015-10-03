@@ -9,7 +9,7 @@ angular.module('biyblApp')
     }
 
     $scope.bcvParser = bcvParser;
-    $scope.ref_list = "Romans 3:2";
+    $scope.ref_list = "";
 
     $scope.get_refs = function() {
     	console.log("VersesCtrl/get_refs/$scope.ref_list at start", $scope.ref_list);

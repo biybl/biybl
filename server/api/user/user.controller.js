@@ -33,21 +33,6 @@ exports.list = function(req, res){
   });
 }
 
-
-/**
- * Get list of churches passages
- * restriction: 'none'
- */
-exports.getChurchPassages = function(req, res){
-  console.log("user.controller/getChurchPassages/made it");
-  User.find({name: req.params.id}, '-salt -hashedPassword -email', function (err, users) {
-    if(err) return res.status(500).send(err);
-    console.log("user.controller/getChurchPassages/made it", users);
-    //res.render(users);
-    res.status(200).json(users);
-  });
-}
-
 /**
  * Creates a new user
  */
@@ -59,6 +44,19 @@ exports.create = function (req, res, next) {
     if (err) return validationError(res, err);
     var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
     res.json({ token: token });
+  });
+};
+
+/**
+ * Get a single church name
+ */
+exports.getName = function (req, res, next) {
+  var userId = req.params.id;
+
+  User.findOne({ 'name': userId } , function (err, user) {
+    if (err) return next(err);
+    if (!user) return res.status(401).send('Unauthorized');
+    res.json(user.profile);
   });
 };
 

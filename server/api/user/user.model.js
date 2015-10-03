@@ -38,7 +38,9 @@ UserSchema
   .get(function() {
     return {
       'name': this.name,
-      'role': this.role
+      'role': this.role,
+      'church_name': this.church_name,
+      'passages': this.passages
     };
   });
 

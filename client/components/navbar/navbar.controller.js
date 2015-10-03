@@ -5,7 +5,10 @@ angular.module('biyblApp')
     $scope.menu = [{
       'title': 'Home',
       'link': '/'
-    }];
+    }, {
+      'title': 'Find Church',
+      'link': '/findchurch'
+    }, ];
 
     $scope.isCollapsed = true;
     $scope.isLoggedIn = Auth.isLoggedIn;

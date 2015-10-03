@@ -6,3 +6,13 @@ ul.lang-buttons li button{
 	min-width: 200px;
 	margin: 8px;
 }
+
+@media (max-width: 797px) {
+	h1 {
+		font-size: 1.8em !important;
+	}
+	#banner {
+		margin-top: 0px !important;
+		margin-bottom: 0px !important;
+	}
+}

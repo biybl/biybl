@@ -4,27 +4,42 @@
   <div class="container">
     <h1>Welcome to BIYBL</h1>
     <p class="lead">Bible in your best language!<br />Bring the word of God to everyone!</p>
-    <p>This app allows you to access the relevant bible verses / passages for the church service that you are attending.<br />
-    Select your church from the filter below, choose a language and that's it!
+    <p>Type in a bible reference. (You can add multiple references separated by commaY.)</p>
   </div>
-</header>
-
-<div class="container">
   <form class="thing-form">
-    <p class="input-group full-width">
-      <input type="text" class="form-control" placeholder="Type church name to filter..." ng-model="searchKeyword">
+    <p class="input-group">
+      <input type="text" class="form-control" placeholder="Enter bible verses..." ng-model="ref_list">
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-success" ng-click="get_refs()">Get Passages</button>
+      </span>
     </p>
   </form>
+</header>
 
+<div class="container" ng-hide="langu || bcvParser.passages.length <= 0 "> 
+  <ul class="nav centered lang-buttons">
+    <li ng-repeat="(key, language) in dbpGrabber.langmap | orderBy: 'key' ">
+        <button type="submit" class="btn btn-primary" ng-click="set_language(key);">{{ key }} - {{ language[2] }}</button>
+    </li>
+  </ul>
+</div>
+
+<div class="container" ng-show="langu && bcvParser.passages.length > 0">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Churches:</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-12 col-lg-12 col-sm-12" ng-repeat="church in churches | orderBy: 'church_name' | filter:searchKeyword:strict ">
+      <ul class="nav nav-tabs nav-stacked col-md-12 col-lg-12 col-sm-12" ng-repeat="reference in bcvParser.passages">
         <li>
-        	<a href="/{{church.name}}">{{church.church_name}} ({{church.name}}) &raquo;</a>
+          <p ng-bind-html="reference.text"></p>
         </li>
       </ul>
     </div>
   </div>
+</div>
 
+<div class="container"  ng-show="langu && bcvParser.passages.length > 0"> 
+  <ul class="nav centered lang-buttons">
+    <li>
+        <button type="submit" class="btn btn-primary " ng-click="remove_language();">Change Language</button>
+    </li>
+  </ul>
 </div>

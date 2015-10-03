@@ -23,6 +23,12 @@ angular.module('biyblApp')
         params: {
           controller: 'passage'
         }
+      },
+      getName: {
+        method: 'get',
+        params: {
+          controller: 'name'
+        }
       }
 	  });
   });

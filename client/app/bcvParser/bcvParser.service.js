@@ -18,7 +18,7 @@ angular.module('biyblApp')
 
       ref_str: "",  // Results of previous parse in parse_ref_and_fetch
 
-      parse_ref_and_fetch: function(input) {
+      parse_ref_and_fetch: function(input, callback) {
         if (input.trim() == "") {
           return;
         }
@@ -35,6 +35,7 @@ angular.module('biyblApp')
           // Admin UI is always in English for now
           self.set_refs(refs, 'en');
         }
+        if (callback) callback();
       },
 
       set_refs: function(refs, lang) {
