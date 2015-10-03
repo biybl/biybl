@@ -10,8 +10,9 @@ angular.module('biyblApp')
     });
 
     return {
-      texts: {},    // Cache of texts from text grabber
-      text_lang = "en"; // Language of text cache
+      texts: {},       // Cache of texts from text grabber
+      text_lang: "en", // Language of text cache
+
       passages: [], // Passages currently important to the user - an array of
                     // hashes, where each hash has 'ref' and 'text' members
 
@@ -33,6 +34,37 @@ angular.module('biyblApp')
 
           // Admin UI is always in English for now
           self.set_refs(refs, 'en');
+        }
+      },
+
+      set_refs: function(refs, lang) {
+        var self = this;
+        var new_passages = [];
+
+        if (this.text_lang != lang) {
+          // Language change - clear cache
+          this.text_lang = lang;
+          self.texts = {};
+        }
+
+        for (var i = 0; i < refs.length; i++) {
+          var ref = refs[i];
+          new_passages[i] = {
+            'ref': ref,
+            'text': self.texts[ref] || ""
+          };
+        };
+
+        // Swap in the newly-constructed passages array
+        self.passages = new_passages;
+
+        // Dispatch async request for any missing Bible texts
+        for (var i = 0; i < self.passages.length; i++) {
+          var passage = self.passages[i];
+
+          if (passage['text'] == "") {
+            self.fetch(passage['ref'], lang);
+          }
         }
       },
 
@@ -66,37 +98,6 @@ angular.module('biyblApp')
         for (var i = 0; i < self.passages.length; i++) {
           if (self.passages[i]['ref'] == ref) {
             self.passages[i]['text'] = text;
-          }
-        }
-      },
-
-      set_refs: function(refs, lang) {
-        var self = this;
-        var new_passages = [];
-
-        if (text_lang != lang) {
-          // Language change - clear cache
-          text_lang = lang;
-          self.texts = {};
-        }
-
-        for (var i = 0; i < refs.length; i++) {
-          var ref = refs[i];
-          new_passages[i] = {
-            'ref': ref,
-            'text': self.texts[ref] || ""
-          };
-        };
-
-        // Swap in the newly-constructed passages array
-        self.passages = new_passages;
-
-        // Dispatch async request for any missing Bible texts
-        for (var i = 0; i < self.passages.length; i++) {
-          var passage = self.passages[i];
-
-          if (passage['text'] == "") {
-            self.fetch(passage['ref'], lang);
           }
         }
       },
