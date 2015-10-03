@@ -10,6 +10,7 @@ angular.module('biyblApp')
 
       if(form.$valid) {
         Auth.createUser({
+          church_name: $scope.user.church_name,
           name: $scope.user.name,
           email: $scope.user.email,
           password: $scope.user.password
