@@ -91,7 +91,7 @@ angular.module('biyblApp')
 
       clear_passages: function() {
         this.passages = [];
-      }
+      },
 
       // Take an array of DBP verse objects and turn into HTML for display
       format_verses: function(verses) {
