@@ -5,6 +5,7 @@ angular.module('biyblApp')
     $routeProvider
       .when('/verses', {
         templateUrl: 'app/verses/verses.html',
-        controller: 'VersesCtrl'
+        controller: 'VersesCtrl',
+        authenticate: true
       });
   });

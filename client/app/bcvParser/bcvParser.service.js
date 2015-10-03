@@ -19,47 +19,48 @@ angular.module('biyblApp')
 
       parse_ref_and_fetch: function(input, callback) {
         var new_ref_str = bcv.parse(input).osis();
+        var self = this;
 
         // When the user has typed a new or removed an old reference...
-        if (new_ref_str != ref_str) {
-          ref_str = new_ref_str;
+        if (new_ref_str != self.ref_str) {
+          self.ref_str = new_ref_str;
 
           // Construct an array of passages and texts
-          refs = ref_str.split(",");
+          var refs = self.ref_str.split(",");
           var new_passages = [];
 
           for (var i = 0; i < refs.length; i++) {
             ref = refs[i];
             new_passages[i] = {
               'ref': ref,
-              'text': texts[ref] || ""
+              'text': self.texts[ref] || ""
             };
           };
 
           // Swap in the newly-constructed passages array
-          passages = new_passages;
+          self.passages = new_passages;
 
           // Dispatch async request for any missing Bible texts
-          for (var i = 0; i < passages.length; i++) {
-            if (passages[i]['text'] == "") {
-              var ref = passages[i]['ref'];
+          for (var i = 0; i < self.passages.length; i++) {
+            if (self.passages[i]['text'] == "") {
+              var ref = self.passages[i]['ref'];
               // Dispatch request for text (always in English for now)
               var promise = dbpGrabber.osiRangeToVerse(ref, 'en');
 
               // Handle returned text
               promise.then(function(response) {
-                for (var j = 0; j < passages.length; j++) {
-                  if (passages[j]['ref'] == ref) {
+                for (var j = 0; j < self.passages.length; j++) {
+                  if (self.passages[j]['ref'] == ref) {
                     // Update the output value
-                    passages[j] = response;
+                    self.passages[j] = response;
 
                     // Store the returned text for later
-                    texts[ref] = response['text'];
+                    self.texts[ref] = response['text'];
                   }
                 }
               }).catch(function(e) {
                 // Some error occurred
-                passages[j]['ref'] = "Unable to obtain Bible text";
+                self.passages[j]['ref'] = "Unable to obtain Bible text";
               })
             }
           }
