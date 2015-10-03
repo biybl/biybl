@@ -86,7 +86,8 @@ angular.module('biyblApp')
       return dam;
     },
 
-    // turns "Gen.1.1" and "Gen.1.5" into array of ref+verse hashes
+    // turns "Gen.1.1" and "Gen.1.5" into array of verse data
+    // e.g.: http://dbt.io/text/verse?v=2&key=f241660c7e9b26ddf60d73b1d9fe5856&dam_id=FRNDBYN2ET&book_id=Rev&chapter_id=1&verse_start=1&verse_end=2&markup=osis
     osiToVerse: function(range, lang, first, last) {
       var url = "http://dbt.io/text/verse?v=2&key=f241660c7e9b26ddf60d73b1d9fe5856";
       url = url + "&markup=osis";
