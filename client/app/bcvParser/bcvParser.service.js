@@ -44,7 +44,7 @@ angular.module('biyblApp')
           for (var i = 0; i < self.passages.length; i++) {
             var passage = self.passages[i];
 
-            if (passage['text'] == "") {
+            if (1) { // (passage['text'] == "") {
               var ref = passage['ref'];
               // Dispatch request for text (always in English for now)
               var promise = dbpGrabber.osiRangeToVerse(ref, 'en');

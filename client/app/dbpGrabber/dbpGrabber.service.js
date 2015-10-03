@@ -93,21 +93,23 @@ angular.module('biyblApp')
       // e.g.: http://dbt.io/text/verse?v=2&key=f241660c7e9b26ddf60d73b1d9fe5856&dam_id=FRNDBYN2ET&book_id=Rev&chapter_id=1&verse_start=1&verse_end=2&markup=osis
       osiToVerse: function(lang, first, last) {
         var self = this;
-        var url = "http://dbt.io/text/verse?v=2";
-        url = url + "&key=" + self.devkey;
-        url = url + "&markup=osis";
-        url = url + "&dam_id=" + self.getDam(lang, first);
-        url = url + self.refToDBPParams(first, last);
+        
+        var promise = new Promise(function(resolve, reject) {          
+          var url = "http://dbt.io/text/verse?v=2";
+          url = url + "&key=" + self.devkey;
+          url = url + "&markup=osis";
+          url = url + "&dam_id=" + self.getDam(lang, first);
+          url = url + self.refToDBPParams(first, last);
 
-        var promise = $http.get(url);
-        var promise2 = promise.then(function(response) {
-          console.log(response.data);
-          self.text = response.data;
-          return response.data;
-        }).catch(function(e) {
-          throw e;
+          $http.get(url).then(function success(response) {
+            console.log(response.data);
+            resolve(response.data);
+          }, function error(response) {
+            reject(Error("It broke!"));
+          });          
         });
-        return promise2;
+
+        return promise;
       },
 
       combineResults: function(results) {
