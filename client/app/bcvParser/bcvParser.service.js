@@ -34,7 +34,7 @@ angular.module('biyblApp')
               'ref': ref,
               'text': texts[ref] || ""
             };
-          }
+          };
 
           // Swap in the newly-constructed passages array
           passages = new_passages;
@@ -57,10 +57,10 @@ angular.module('biyblApp')
                     texts[ref] = response['text'];
                   }
                 }
-              }).catch(function(e)) {
+              }).catch(function(e) {
                 // Some error occurred
                 passages[j]['ref'] = "Unable to obtain Bible text";
-              }
+              })
             }
           }
         }
