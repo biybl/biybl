@@ -17,7 +17,7 @@ angular.module('biyblApp')
       passages: [], // Return value - array of hashes, where hash has 'ref'
                     // and 'text' members
 
-      parse_ref_and_fetch: function(input) {
+      parse_ref_and_fetch: function(input, callback) {
         var new_ref_str = bcv.parse(input).osis();
 
         // When the user has typed a new or removed an old reference...
@@ -63,6 +63,9 @@ angular.module('biyblApp')
               })
             }
           }
+          if (callback) callback();
+        } else {
+          if (callback) callback();
         }
       },
     }
