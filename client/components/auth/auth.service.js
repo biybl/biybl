@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('biyblApp')
-  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
+  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q, bcvParser) {
     var currentUser = {};
     if($cookieStore.get('token')) {
       currentUser = User.get();
@@ -19,6 +19,7 @@ angular.module('biyblApp')
       login: function(user, callback) {
         var cb = callback || angular.noop;
         var deferred = $q.defer();
+        bcvParser.passages = [];
 
         $http.post('/auth/local', {
           email: user.email,
@@ -45,6 +46,7 @@ angular.module('biyblApp')
        * @param  {Function}
        */
       logout: function() {
+        bcvParser.passages = [];
         $cookieStore.remove('token');
         currentUser = {};
       },

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('biyblApp')
-  .controller('MainCtrl', function ($scope, $http, socket, bcvParser, dbpGrabber) {
+  .controller('MainCtrl', function ($scope, $http, socket, bcvParser, dbpGrabber, Auth, $location) {
     $scope.bcvParser = bcvParser;
     $scope.refs_list = [];
 
@@ -11,6 +11,8 @@ angular.module('biyblApp')
     $scope.ref_list = "";
     $scope.lang_list = [];
     $scope.dbpGrabber = dbpGrabber;
+
+    if (Auth.isLoggedIn()) { $location.path( "/verses" ); };
 
     $scope.get_refs = function() {
       bcvParser.parse_ref_and_fetch($scope.ref_list, function() {
