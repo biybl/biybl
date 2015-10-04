@@ -8,7 +8,10 @@ angular.module('biyblApp')
     }, {
       'title': 'Find Your Church',
       'link': '/findchurch'
-    }, ];
+    }, {
+      'title': 'About BIYBL',
+      'link': '/about'
+    } ];
 
     $scope.isCollapsed = true;
     $scope.isLoggedIn = Auth.isLoggedIn;
