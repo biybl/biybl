@@ -36,8 +36,8 @@ angular.module('biyblApp')
         'sq': ['ALSABVO2ET', 'ALSABVN2ET', 'Shqip'],
 //        'sr': ['',           '',           'Српски'],
 //        'ur': ['',           '',           'اردو'],
-        'zh_simp': ['CHNUN1O2ET', 'CHNUN1N2ET', '汉语'],
-        'zh_trad': ['CHNUNVO2ET', 'CHNUNVN2ET', '汉语'],
+        'zh-Hans': ['CHNUN1O2ET', 'CHNUN1N2ET', '简化字 / 简体字'], // Simplified
+        'zh-Hant': ['CHNUNVO2ET', 'CHNUNVN2ET', '正體字 / 繁體字'], // Traditional
       },
 
       ot_books: ['Gen', 'Exod', 'Lev', 'Num', 'Deut', 'Josh', 'Judg', 'Ruth',

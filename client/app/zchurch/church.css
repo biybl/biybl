@@ -3,8 +3,11 @@ ul.lang-buttons {
 }
 
 ul.lang-buttons li button{
-	min-width: 200px;
-	margin: 8px;
+	min-width: 220px;
+	margin: 4px;
+        font-weight: bold;
+        text-align: left;
+        font-size: 110%;
 }
 
 @media (max-width: 797px) {
