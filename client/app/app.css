@@ -43,6 +43,12 @@
     margin: 0px;
 }
 
+/* Make the headings show up against the background image */
 .container > h1 {
     text-shadow: 1px 1px 2px black;
+}
+
+/* Align text correctly when RTL (sadly, only works in Firefox) */
+p:-moz-dir(rtl) {
+  text-align: right;
 }

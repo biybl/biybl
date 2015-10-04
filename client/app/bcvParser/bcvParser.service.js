@@ -155,7 +155,7 @@ angular.module('biyblApp')
             }
 
             output = output + "</h2>\n\n";
-            output = output + "<p>\n";
+            output = output + "<p dir='auto'>\n";
           }
           else if (verse['paragraph_number'] != current_para) {
             // Intra-chapter paragraph number increments
