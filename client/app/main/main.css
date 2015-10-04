@@ -20,11 +20,11 @@
     text-align: center;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
     background: #4393B9;
-    background: url("/assets/images/main_bg.jpg") no-repeat center center;
+    background: url("/assets/images/main_bg.jpg") no-repeat center 75%;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;     
+    background-size: cover;
 }
 
 .input-group.full-width {

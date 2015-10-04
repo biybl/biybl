@@ -2,10 +2,10 @@
 
 angular.module('biyblApp')
   .controller('SignupCtrl', function ($scope, Auth, $location, $timeout) {
-    
+
     $scope.user = {
       church_name: "",
-      name: "", 
+      name: "",
       email: "",
       password: ""
     };
@@ -17,8 +17,13 @@ angular.module('biyblApp')
     var cname_timer;
 
     $scope.fill_un = function() {
-      // create slug
-      $scope.user.name = $scope.user.church_name.replace(/\W/g, '');
+      // Create suggested slug
+      var name = $scope.user.church_name;
+      name = name.replace(/\bthe\b(\s+)?/ig, "");
+      name = name.replace(/\bchurch|assembly|tabernacle|christian\b(\s+)?/ig, "");
+      name = name.replace(/\bSaint\b(\s+)?/ig, "st");
+      name = name.replace(/\W/g, '');
+      $scope.user.name = name.toLowerCase();
       //$scope.check_name();
     };
 
@@ -32,7 +37,7 @@ angular.module('biyblApp')
 
     $scope.check_name = function() {
       //check with DB
-      //update if necessary      
+      //update if necessary
       //console.log("im in");
       //$scope.checking_name = true;
       //$timeout.cancel(cname_timer);

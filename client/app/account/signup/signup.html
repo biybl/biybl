@@ -27,7 +27,7 @@
 
         <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
                                             'has-error': form.name.$invalid && submitted }">
-          <label>Short Name 
+          <label>Short Name
             <span ng-show="checking_name"><img src="/assets/images/ajax-loader.gif" /></span>
             <span class="glyphicon glyphicon-ok green" ng-show="form.name.$dirty && un_ok"></span>
             <span class="glyphicon glyphicon-remove red" ng-show="form.name.$dirty && un_ok"></span>
@@ -46,7 +46,8 @@
         <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
                                             'has-error': form.email.$invalid && submitted }">
           <label>Email</label>
-          <p>You'll use this to log in each week and change the passage(s). Better to use a generic church email address.</p>
+          <p>You'll use this to log in each week and change the passage(s).
+          Better to use a generic church email address rather than a personal one.</p>
           <input type="email" name="email" class="form-control" ng-model="user.email"
                  required
                  mongoose-error/>
