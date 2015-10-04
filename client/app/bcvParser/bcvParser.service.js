@@ -93,7 +93,7 @@ angular.module('biyblApp')
 
         // Handle returned text
         promise.then(function success(response) {
-          var text = self.format_verses(response);
+          var text = self.format_verses(ref, response);
           self.update_passage_text(ref, text);
         }, function error(e) {
           // Some error occurred
@@ -119,7 +119,7 @@ angular.module('biyblApp')
       },
 
       // Take an array of DBP verse objects and turn into HTML for display
-      format_verses: function(verses) {
+      format_verses: function(ref, verses) {
         var self = this;
         // Ideally, all this would use templates...
         //
@@ -142,6 +142,11 @@ angular.module('biyblApp')
         var current_para = verses[0]['paragraph_number'];
         var current_ch = "0";
 
+        // The API doesn't give us any useful formatting information :-(
+        // Fake it a bit by printing books which seem to need it particularly
+        // as one verse per line.
+        var one_verse_per_line = verses[0]['book_id'].match(/Ps|Prov|Song/);
+
         for (var i = 0; i < verses.length; i++) {
           var verse = verses[i];
 
@@ -151,20 +156,47 @@ angular.module('biyblApp')
             current_para = verse['paragraph_number'];
 
             output = output + "<h2>" + verse['book_name'] + " "
-                                     + verse['chapter_id'] + ":"
-                                     + verse['verse_id'];
-            if (i < verses.length - 1) {
-              // Find last verse number in range in this chapter
-              var last_verse = verses[i]['verse_id'];
-              for (var j = i; j < verses.length; j++) {
-                if (verses[j]['chapter_id'] != current_ch) {
-                  break;
+                                     + verse['chapter_id'];
+
+            var print_verse_numbers = false;
+            var start = ref.split('-')[0];
+            var end = ref.split('-')[1];
+
+            // Decide whether we want to print verse numbers. This is more
+            // complex than it seems.
+            if (verses.length === 1) {
+              // Not a range -> verse number
+              print_verse_numbers = true;
+            }
+            else if (i == 0) {
+              // Starting chapter (i == 0)
+              // -> verse numbers if ref start has verse number
+              print_verse_numbers = typeof start.split(".")[2] !== 'undefined';
+            }
+            else if (current_ch === end.split(".")[1]) {
+              // Ending chapter (current_ch = ref end ch)
+              // -> verse numbers if ref end has verse number
+              print_verse_numbers = typeof end.split(".")[2] !== 'undefined';
+            }
+            else {
+              // Intermediate chapter -> no verse numbers
+            }
+
+            if (print_verse_numbers) {
+              output = output + ":" + verse['verse_id'];
+              if (i < verses.length - 1) {
+                // Find last verse number in range in this chapter
+                var last_verse = verses[i]['verse_id'];
+                for (var j = i; j < verses.length; j++) {
+                  if (verses[j]['chapter_id'] != current_ch) {
+                    break;
+                  }
+
+                  last_verse = verses[j]['verse_id'];
                 }
 
-                last_verse = verses[j]['verse_id'];
+                output = output + "-" + last_verse;
               }
-
-              output = output + "-" + last_verse;
             }
 
             output = output + "</h2>\n\n";
@@ -180,7 +212,10 @@ angular.module('biyblApp')
 
           output = output + "<span class='verseno'>" + verse['verse_id'];
           output = output + "</span><span class='verse'>" + verse['verse_text'];
-          output = output + "</span> \n"
+          output = output + "</span> \n";
+          if (one_verse_per_line) {
+            output = output + "<br>";
+          }
         }
 
         output = output + "\n</p>";
