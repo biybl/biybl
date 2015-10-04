@@ -26,6 +26,8 @@
       </ul>
     </div>
     <div class="col-lg-12 right-align" ng-show="bcvParser.passages.length > 0">
+        <span ng-show="saving_refs" class="save_msg"> Saving <img src="/assets/images/ajax-loader.gif" /></span>
+        <span class="glyphicon glyphicon-ok save_msg" ng-show="refs_saved"> <span>Saved</span> </span>
         <button type="submit" id="save" class="btn btn-primary" ng-click="save_refs()">Save Passage References</button>
     </div>
   </div>

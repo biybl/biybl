@@ -18,21 +18,28 @@
                                             'has-error': form.church_name.$invalid && submitted }">
           <label>Church Full Name</label>
           <p>If your church has a name which is common, include a geographical disambiguator, e.g. "King's Church, Sheffield"</p>
-          <input type="text" name="name" class="form-control" ng-model="user.church_name"
-                 required/>
-          <p class="help-block" ng-show="form.name.$error.required && submitted">
+          <input type="text" name="church_name" class="form-control" ng-model="user.church_name"
+                 required ng-change="fill_un()"/>
+          <p class="help-block" ng-show="form.church_name.$error.required && submitted">
             A church name is required
           </p>
         </div>
 
         <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
                                             'has-error': form.name.$invalid && submitted }">
-          <label>Short Name</label>
-          <p>This appears in your church's URL, i.e. <tt>http://biybl.cogito.com/<i>churchname</i></tt></p>
-          <input type="text" name="name" class="form-control" ng-model="user.name"
-                 required/>
+          <label>Short Name 
+            <span ng-show="checking_name"><img src="/assets/images/ajax-loader.gif" /></span>
+            <span class="glyphicon glyphicon-ok green" ng-show="form.name.$dirty && un_ok"></span>
+            <span class="glyphicon glyphicon-remove red" ng-show="form.name.$dirty && un_ok"></span>
+          </label>
+          <p>This appears in your church's URL, i.e. <tt>http://biybl.cogiva.com/<i>churchname</i></tt></p>
+          <input type="text" name="name" class="form-control" ng-model="user.name" ng-disabled="checking_name"
+                 required ng-pattern="/^[a-zA-Z0-9]+$/" ng-minlength=2 ng-maxlength=64 ng-change="un_change()"/>
           <p class="help-block" ng-show="form.name.$error.required && submitted">
             A short name (username) is required
+          </p>
+          <p class="help-block" ng-show="form.name.$error.pattern && submitted">
+            A short name (username) must only letters and numbers (no spaces)
           </p>
         </div>
 
