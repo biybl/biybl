@@ -6,11 +6,11 @@ angular.module('biyblApp')
       'title': 'Home',
       'link': '/'
     }, {
+      'title': 'About',
+      'link': '/about'
+    }, {
       'title': 'Find Your Church',
       'link': '/findchurch'
-    }, {
-      'title': 'About BIYBL',
-      'link': '/about'
     } ];
 
     $scope.isCollapsed = true;

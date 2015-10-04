@@ -17,7 +17,7 @@
         <div class="form-group" ng-class="{ 'has-success': form.church_name.$valid && submitted,
                                             'has-error': form.church_name.$invalid && submitted }">
           <label>Church Full Name</label>
-          <p>If your church has a name which is common, include a geographical disambiguator, e.g. "King's Church, Sheffield"</p>
+          <p>If your church has a name which is common, include a geographical term, e.g. "King's Church, Sheffield"</p>
           <input type="text" name="church_name" class="form-control" ng-model="user.church_name"
                  required ng-change="fill_un()"/>
           <p class="help-block" ng-show="form.church_name.$error.required && submitted">
