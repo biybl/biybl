@@ -6,7 +6,7 @@ angular.module('biyblApp')
       'title': 'Home',
       'link': '/'
     }, {
-      'title': 'Find Church',
+      'title': 'Find Your Church',
       'link': '/findchurch'
     }, ];
 
