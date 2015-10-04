@@ -11,10 +11,11 @@ angular.module('biyblApp')
 
     return {
       texts: {},       // Cache of texts from text grabber
-      text_lang: "en", // Language of text cache
+      text_lang: "",   // Language of text cache
 
       passages: [], // Passages currently important to the user - an array of
                     // hashes, where each hash has 'ref' and 'text' members
+      copyright: "",
 
       ref_str: "",  // Results of previous parse in parse_ref_and_fetch
 
@@ -46,9 +47,20 @@ angular.module('biyblApp')
         var new_passages = [];
 
         if (this.text_lang != lang) {
-          // Language change - clear cache
+          // Language change
+          // Clear cache
           this.text_lang = lang;
           self.texts = {};
+
+          // Get copyright info for Bible in this language
+          var promise = dbpGrabber.copyrightString(lang);
+          promise.then(function success(copyright) {
+            self.copyright = copyright;
+          }, function error(e) {
+            // Some error occurred
+            self.copyright = "<span class='error'>Unable to " +
+                             "obtain copyright information.</span>";
+          });
         }
 
         for (var i = 0; i < refs.length; i++) {
@@ -108,6 +120,7 @@ angular.module('biyblApp')
 
       // Take an array of DBP verse objects and turn into HTML for display
       format_verses: function(verses) {
+        var self = this;
         // Ideally, all this would use templates...
         //
         // 'verses' is an array of verse objects from DBP API
@@ -171,6 +184,14 @@ angular.module('biyblApp')
         }
 
         output = output + "\n</p>";
+
+        // Copyright or other attribution information
+        output = output + "\n<p class='attribution'>";
+        if (self.copyright.indexOf("Public Domain") === -1) {
+           output = output + "Copyright: ";
+        }
+
+        output = output + self.copyright + "\n</p>\n";
 
         return output;
       },

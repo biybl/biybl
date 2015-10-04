@@ -19,3 +19,8 @@ ul.lang-buttons li button{
 		margin-bottom: 0px !important;
 	}
 }
+
+.attribution {
+        font-style: italic;
+        font-size: 60%;
+}

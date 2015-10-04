@@ -195,25 +195,40 @@ angular.module('biyblApp')
       },
 
       copyrightString: function(lang) {
-        // http://dbt.io/library/metadata?key=f241660c7e9b26ddf60d73b1d9fe5856&dam_id=GERD71O2ET&v=2
-        var url = "http://dbt.io/library/metadata?v=2";
-        url = url + "&key=" + this.devkey;
-        url = url + "&dam_id=" + this.getDam(lang, "Rev.1.1");  // the NT exists more often than the OT
         var self = this;
-        var promise = $http.get(url);
-        promise.then(function(response) {
-          var resp = JSON.parse(response.data);
-          self.copyright = resp[0]['mark'];
-          if (!self.copyright) {
-            // TODO If the mark field is empty, display the name of the organization
-            // where organization_role is “holder.”
-            // Meaning, loop through resp[0]['organization'] doing:
-            // if (organization[i]['organization_role'] == 'holder')
-            //   self.copyright = organization[i]['organization'];
-          }
-        }).catch(function(e) {
-          throw e;
+        var promise = $q(function(resolve, reject) {
+          // http://dbt.io/library/metadata?key=f241660c7e9b26ddf60d73b1d9fe5856&dam_id=GERD71O2ET&v=2
+          var url = "http://dbt.io/library/metadata?v=2";
+          url = url + "&key=" + self.devkey;
+          url = url + "&dam_id=" + self.getDam(lang, "Rev.1.1");  // the NT exists more often than the OT
+
+          var myRequest = new XMLHttpRequest();
+          myRequest.addEventListener("load", function(response) {
+            var metadata = JSON.parse(myRequest.responseText);
+            var copyright = metadata[0]['mark'];
+            if (!copyright) {
+              // TODO If the mark field is empty, display the name of the organization
+              // where organization_role is “holder.”
+              // Meaning, loop through resp[0]['organization'] doing:
+              // if (organization[i]['organization_role'] == 'holder')
+              //   self.copyright = organization[i]['organization'];
+            }
+
+            // We don't use their fonts, so remove font copyright
+            copyright = copyright.replace(/FONT.*$/, "");
+            copyright = copyright.replace(/TEXT:/, "");
+
+            resolve(copyright);
+          });
+
+          myRequest.addEventListener("error", function(response) {
+            reject(Error("It broke!"));
+          });
+
+          myRequest.open("GET", url);
+          myRequest.send();
         });
+
         return promise;
       }
     };
