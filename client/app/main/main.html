@@ -2,21 +2,22 @@
 
 <header class="hero-unit" id="banner">
   <div class="container">
-    <h1>Welcome to BIYBL</h1>
-    <p class="lead">Bible in your best language!<br />Bring the word of God to everyone!</p>
-    <p>Type in a bible reference. (You can add multiple references separated by commas.)</p>
+    <h1>Bible In Your Best Language</h1>
   </div>
+</header>
+
+<div class="container">
   <form class="thing-form">
     <p class="input-group">
-      <input type="text" class="form-control" placeholder="Enter bible verses..." ng-model="ref_list">
+      <input type="text" class="form-control" placeholder="e.g. John 3:16, Ephesians 2:1-10" ng-model="ref_list">
       <span class="input-group-btn">
-        <button type="submit" class="btn btn-success" ng-click="get_refs()">Get Passages</button>
+        <button type="submit" class="btn btn-success" ng-click="get_refs()">Get Passage Text</button>
       </span>
     </p>
   </form>
-</header>
+</div>
 
-<div class="container" ng-hide="langu || bcvParser.passages.length <= 0 "> 
+<div class="container" ng-hide="langu || bcvParser.passages.length <= 0 ">
   <ul class="nav centered lang-buttons">
     <li ng-repeat="(key, language) in dbpGrabber.langmap | orderBy: 'key' ">
         <button type="submit" class="btn btn-primary" ng-click="set_language(key);">{{ key }} - {{ language[2] }}</button>
@@ -36,7 +37,7 @@
   </div>
 </div>
 
-<div class="container"  ng-show="langu && bcvParser.passages.length > 0"> 
+<div class="container"  ng-show="langu && bcvParser.passages.length > 0">
   <ul class="nav centered lang-buttons">
     <li>
         <button type="submit" class="btn btn-primary " ng-click="remove_language();">Change Language</button>

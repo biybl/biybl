@@ -35,7 +35,10 @@ angular.module('biyblApp')
           // Admin UI is always in English for now
           self.set_refs(refs, 'en');
         }
-        if (callback) callback();
+
+        if (callback) {
+          callback();
+        }
       },
 
       set_refs: function(refs, lang) {
