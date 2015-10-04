@@ -50,25 +50,24 @@ angular.module('biyblApp')
       // given "Gen.1.1","Gen.1.3"
       // will return "&book_id=Gen&chapter_id=1&verse_start=1&verse_end=3"
       // Like the API, only supports single chapters at once
-      refToDBPParams: function(ref, ref2) {
-        var parts = ref.split('.');
-        var b = parts[0];
-        var c = parts[1];
-        var ret = "&book_id=" + b + "&chapter_id=" + c;
-        if (parts.length == 3) {
-          ret = ret + "&verse_start=" + parts[2];
-          if (ref != ref2) {
-            var parts2 = ref2.split('.');
-            if ((parts[0] != parts2[0]) || (parts[1] != parts2[1])) {
-              throw('Cross-chapter references are not supported by the api');
-            }
+      refToDBPParams: function(start, end) {
+        var startParts = start.split('.');
+        var endParts   = end.split('.');
 
-            ret = ret + "&verse_end=" + parts2[2];
-          }
-        } else if (parts.length == 2) {  // entire chapter
-          // no change
+        if ((startParts[0] != endParts[0]) || (startParts[1] != endParts[1])) {
+          throw('Cross-chapter references are not supported by the API');
+        }
+
+        var b = startParts[0];
+        var c = startParts[1];
+        var ret = "&book_id=" + b + "&chapter_id=" + c;
+        if (endParts.length == 3) {
+          ret = ret + "&verse_start=" + (startParts[2] || "1");
+          ret = ret + "&verse_end=" + endParts[2];
+        } else if (endParts.length == 2) {
+          // entire chapter - OK
         } else {
-          throw(['Unusual osiRef', ref]);
+          throw(['Unusual osistart', start]);
         }
 
         return ret;
@@ -150,10 +149,7 @@ angular.module('biyblApp')
       osiRangeToVerse: function(range, lang) {
         var rangeParts = range.split('-');
         var start = rangeParts[0];
-        var end   = rangeParts[0];
-        if (typeof rangeParts[1] !== 'undefined') {
-          end = rangeParts[1];
-        }
+        var end   = rangeParts[1] || rangeParts[0];
 
         // The API does not support requests across multiple chapters, so we
         // may have to make more than one call
@@ -161,12 +157,14 @@ angular.module('biyblApp')
         var endParts   = end.split('.');
         var book = startParts[0];
         var ch1  = parseInt(startParts[1]);
+        var v1   = startParts[2] || "1";
         var ch2  = parseInt(endParts[1]);
+        var v2   = endParts[2] || "999";
         var promises = [];
 
         // Do the first (and perhaps only) chapter
         // 999 is an invalid verse number, but the API does the right thing
-        var endVerse = ((ch1 < ch2) ? '999' : endParts[2]);
+        var endVerse = ((ch1 < ch2) ? '999' : v2);
 
         var endOfFirstChapter = [book, ch1, endVerse].join('.');
         promises.push(this.osiToVerse(lang, start, endOfFirstChapter));
