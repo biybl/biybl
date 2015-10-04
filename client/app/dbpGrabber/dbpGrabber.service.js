@@ -49,6 +49,7 @@ angular.module('biyblApp')
 
       // given "Gen.1.1","Gen.1.3"
       // will return "&book_id=Gen&chapter_id=1&verse_start=1&verse_end=3"
+      // Like the API, only supports single chapters at once
       refToDBPParams: function(ref, ref2) {
         var parts = ref.split('.');
         var b = parts[0];
@@ -73,8 +74,9 @@ angular.module('biyblApp')
         return ret;
       },
 
-      // given a language and a reference (used only for the book),
-      // returns the DAM ID (digitalbibleplatform's translation identifier)
+      // given a language and a reference (examined only to find out the book
+      // and therefore the Testament), returns the DAM ID
+      // (digitalbibleplatform's translation identifier)
       getDam: function(lang, ref) {
         // Default to New Testament
         var damIndex = 1;
@@ -100,7 +102,8 @@ angular.module('biyblApp')
         return dam;
       },
 
-      // Turns "Gen.1.1" and "Gen.1.5" into array of verse data
+      // Turns "Gen.1.1" and "Gen.1.5" into array of verse data from
+      // digitalbibleplatform. Supports only ranges within a single chapter
       osiToVerse: function(lang, first, last) {
         var self = this;
 
@@ -139,55 +142,58 @@ angular.module('biyblApp')
         return promise;
       },
 
-      combineResults: function(results) {
-        var ret = [];
-        for (var i = 0; i < results.length; i++)
-          ret = ret.concat(results[i]);
-        return ret;
-      },
-
-      combineFetches: function(lang, first, last) {
-        var firstComps = first.split('.');
-        var lastComps = last.split('.');
-        var book = firstComps[0];
-        var c1 = parseInt(firstComps[1]);
-        var c2 = parseInt(lastComps[1]);
-        var promises = [];
-        // do the first (probably partial) chapter
-        var endOfChapter = [book, c1, "999"].join('.');  // invalid verse number, but the API does the right thing
-        promises.push(this.osiToVerse(lang, first, endOfChapter));
-        // do the chapters between first and last
-        c1 = c1 + 1;
-        while (c1 < c2) {
-          console.log(c1);
-          console.log(c2);
-          var oneChapter = book + '.' + c1;    // no verse number means entire chapter
-          promises.push(this.osiToVerse(lang, oneChapter, oneChapter));
-          c1 = c1 + 1;
-        }
-        // do the last (probably partial) chapter
-        var startOfChapter = [book, c2, "1"].join('.');
-        promises.push(this.osiToVerse(lang, startOfChapter, last));
-        var combinePromise = promises.Foo().then(function(result) {
-          return combineResults(result);
-        });
-        return combinePromise;
-      },
-
-      // range: either "Gen.1.1-Gen.1.3" or "Gen.1.1"
+      // Fetch the verse objects for a single verse or range within an entire
+      // book.
+      //
+      // range: either "Gen.1.1-Gen.2.3" or "Gen.1.1"
       // lang: something like "en" or "fr"
       osiRangeToVerse: function(range, lang) {
-        var pairs = range.split('-');
-        if (pairs.length == 2) {  // it is a range; there's a dash.
-          var c1 = pairs[0].split('.')[1];
-          var c2 = pairs[1].split('.')[1];
-          if (c1 == c2)
-            return this.osiToVerse(lang, pairs[0], pairs[1]);
-          else
-            return this.combineFetches(lang, pairs[0], pairs[1]);
-        } else {
-          return this.osiToVerse(lang, pairs[0], pairs[0]);
+        var rangeParts = range.split('-');
+        var start = rangeParts[0];
+        var end   = rangeParts[0];
+        if (typeof rangeParts[1] !== 'undefined') {
+          end = rangeParts[1];
         }
+
+        // The API does not support requests across multiple chapters, so we
+        // may have to make more than one call
+        var startParts = start.split('.');
+        var endParts   = end.split('.');
+        var book = startParts[0];
+        var ch1  = parseInt(startParts[1]);
+        var ch2  = parseInt(endParts[1]);
+        var promises = [];
+
+        // Do the first (and perhaps only) chapter
+        // 999 is an invalid verse number, but the API does the right thing
+        var endVerse = ((ch1 < ch2) ? '999' : endParts[2]);
+
+        var endOfFirstChapter = [book, ch1, endVerse].join('.');
+        promises.push(this.osiToVerse(lang, start, endOfFirstChapter));
+
+        // Do any additional chapters
+        if (ch1 < ch2) {
+          ch1 = ch1 + 1;
+
+          while (ch1 < ch2) {
+            // Whole chapters (no verse number means entire chapter)
+            var wholeChapter = [book, ch1].join('.');
+            promises.push(this.osiToVerse(lang, wholeChapter, wholeChapter));
+            ch1 = ch1 + 1;
+          }
+
+          var startOfLastChapter = [book, ch2, "1"].join('.');
+          promises.push(this.osiToVerse(lang, startOfLastChapter, end));
+        }
+
+        var combinedPromise = $q.all(promises).then(function(results) {
+          var ret = [];
+          for (var i = 0; i < results.length; i++)
+            ret = ret.concat(results[i]);
+          return ret;
+        });
+
+        return combinedPromise;
       },
 
       copyrightString: function(lang) {

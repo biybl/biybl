@@ -127,35 +127,42 @@ angular.module('biyblApp')
         var output = "";
 
         var current_para = verses[0]['paragraph_number'];
-        var current_chapter_id = "0";
+        var current_ch = "0";
 
         for (var i = 0; i < verses.length; i++) {
           var verse = verses[i];
 
-          // Deal with paragraph increments
-          // XXX paragraph_number doesn't, sadly, do what we want :-(
-          if (verse['paragraph_number'] != current_para) {
+          // Chapter headings
+          if (verse['chapter_id'] != current_ch) {
+            current_ch = verse['chapter_id'];
             current_para = verse['paragraph_number'];
 
-            output = output + "</p>\n<p>\n";
-          }
+            output = output + "<h2>" + verse['book_name'] + " "
+                                     + verse['chapter_id'] + ":"
+                                     + verse['verse_id'];
+            if (i < verses.length - 1) {
+              // Find last verse number in range in this chapter
+              var last_verse = verses[i]['verse_id'];
+              for (var j = i; j < verses.length; j++) {
+                if (verses[j]['chapter_id'] != current_ch) {
+                  break;
+                }
 
-          // Deal with chapter headings
-          // XXX We don't support cross-chapter references properly yet
-          // everywhere, and when we do, this will need to handle displaying
-          // ranges better
-          if (verse['chapter_id'] != current_chapter_id) {
-            current_chapter_id = verse['chapter_id'];
+                last_verse = verses[j]['verse_id'];
+              }
 
-            output = output + "<h2>" + verses[0]['book_name'] + " "
-                            + verses[0]['chapter_id'] + ":"
-                            + verses[0]['verse_id'];
-            if (verses.length > 1) {
-              output = output + "-" + verses[verses.length - 1]['verse_id'];
+              output = output + "-" + last_verse;
             }
 
             output = output + "</h2>\n\n";
             output = output + "<p>\n";
+          }
+          else if (verse['paragraph_number'] != current_para) {
+            // Intra-chapter paragraph number increments
+            // XXX Seems like these don't happen :-(
+            current_para = verse['paragraph_number'];
+
+            output = output + "</p>\n<p>\n";
           }
 
           output = output + "<span class='verseno'>" + verse['verse_id'];
