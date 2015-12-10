@@ -37,3 +37,7 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.church-list  > li > a {
+    padding: 10px 0px !important;
+}

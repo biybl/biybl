@@ -7,37 +7,41 @@
 </header>
 
 <div class="container">
-  <form class="thing-form">
-    <p>Enter the passage reference(s) for this week's meeting:
-    <p class="input-group">
-      <input type="text" class="form-control" placeholder="e.g. John 3:16, Ephesians 2:1-10" ng-model="ref_list">
-      <span class="input-group-btn">
-        <button type="submit" class="btn btn-primary" ng-click="get_refs()">Get Passage Text</button>
-      </span>
-    </p>
-  </form>
-
   <div class="row">
-    <div class="col-lg-12">
-      <ul class="nav nav-tabs nav-stacked col-md-12 col-lg-12 col-sm-12" ng-repeat="reference in bcvParser.passages">
-        <li>
-        	<p ng-bind-html="reference.text"></p>
-        </li>
-      </ul>
-    </div>
-    <div class="col-lg-12 right-align" ng-show="bcvParser.passages.length > 0">
-        <span ng-show="saving_refs" class="save_msg"> Saving <img src="/assets/images/ajax-loader.gif" /></span>
-        <span class="glyphicon glyphicon-ok save_msg" ng-show="refs_saved"> <span>Saved</span> </span>
-        <button type="submit" id="save" class="btn btn-primary" ng-click="save_refs()">Save Passage References</button>
-    </div>
+    <form class="thing-form">
+      <h3>Enter the passage reference(s) for this week's meeting:</h3>
+      <p class="input-group">
+        <input type="text" class="form-control" placeholder="e.g. John 3:16, Ephesians 2:1-10" ng-model="ref_list">
+        <span class="input-group-btn">
+          <button type="submit" class="btn btn-primary" ng-click="get_refs()">Get Passage Text</button>
+        </span>
+      </p>
+    </form>
   </div>
+</div>
+<div class="container">
+  <ul class="nav nav-tabs nav-stacked col-md-12 col-lg-12 col-sm-12" ng-repeat="reference in bcvParser.passages">
+    <div class="row">
 
+      <li>
+      	<p ng-bind-html="reference.text"></p>
+      </li>
+    </div>
+  </ul>
+</div>
+<div class="container">
+  <div class="row no-bg">
+      <div class="right-align" ng-show="bcvParser.passages.length > 0">
+          <span ng-show="saving_refs" class="save_msg"> Saving <img src="/assets/images/ajax-loader.gif" /></span>
+          <span class="glyphicon glyphicon-ok save_msg" ng-show="refs_saved"> <span>Saved</span> </span>
+          <button type="submit" id="save" class="btn btn-primary" ng-click="save_refs()">Save Passage References</button>
+      </div>
+  </div>
   <div class="row">
-    <div class="col-lg-12">
-      The URL for your church to publish and use is:
-      &lt;<tt><a href="http://biybl.cogiva.com:9000/{{ church }}">http://biybl.cogiva.com:9000/{{ church }}</a></tt>&gt;.
-    </div>
+      <div class="url-block">
+        The URL for your church to publish and use is:
+        <a href="http://biybl.cogiva.com:9000/{{ church }}">http://biybl.cogiva.com:9000/{{ church }}</a>
+      </div>
   </div>
-
 </div>
 

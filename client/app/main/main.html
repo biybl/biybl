@@ -7,40 +7,43 @@
 </header>
 
 <div class="container">
-  <form class="thing-form">
-    <p class="input-group">
-      <input type="text" class="form-control" placeholder="e.g. John 3:16, Ephesians 2:1-10" ng-model="ref_list">
-      <span class="input-group-btn">
-        <button type="submit" class="btn btn-success" ng-click="get_refs()">Get Passage Text</button>
-      </span>
-    </p>
-  </form>
-</div>
-
-<div class="container" ng-hide="langu || bcvParser.passages.length <= 0 ">
-  <ul class="nav centered lang-buttons">
-    <li ng-repeat="(key, language) in dbpGrabber.langmap | orderBy: 'key' ">
-        <button type="submit" class="btn btn-primary" ng-click="set_language(key);">{{ key }} - {{ language[2] }}</button>
-    </li>
-  </ul>
-</div>
-
-<div class="container" ng-show="langu && bcvParser.passages.length > 0">
   <div class="row">
-    <div class="col-lg-12">
-      <ul class="nav nav-tabs nav-stacked col-md-12 col-lg-12 col-sm-12" ng-repeat="reference in bcvParser.passages">
-        <li>
-          <p ng-bind-html="reference.text"></p>
-        </li>
-      </ul>
-    </div>
+    <form class="thing-form">
+      <h3>Search for passage</h3>
+      <p class="input-group">
+        <input type="text" class="form-control" placeholder="e.g. John 3:16, Ephesians 2:1-10" ng-model="ref_list">
+        <span class="input-group-btn">
+          <button type="submit" class="btn btn-success" ng-click="get_refs()">Get Passage Text</button>
+        </span>
+      </p>
+    </form>
   </div>
 </div>
 
+<div class="container" ng-hide="langu || bcvParser.passages.length <= 0 ">
+  <div class="row">
+    <ul class="nav centered lang-buttons">
+      <li ng-repeat="(key, language) in dbpGrabber.langmap | orderBy: 'key' ">
+          <button type="submit" class="btn btn-primary" ng-click="set_language(key);">{{ key }} - {{ language[2] }}</button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="container" ng-show="langu && bcvParser.passages.length > 0">
+    <ul class="nav nav-tabs nav-stacked col-md-12 col-lg-12 col-sm-12" ng-repeat="reference in bcvParser.passages">
+      <li class="row">
+        <p ng-bind-html="reference.text"></p>
+      </li>
+    </ul>
+</div>
+
 <div class="container"  ng-show="langu && bcvParser.passages.length > 0">
-  <ul class="nav centered lang-buttons">
-    <li>
-        <button type="submit" class="btn btn-primary " ng-click="remove_language();">Change Language</button>
-    </li>
-  </ul>
+  <div class="row">
+    <ul class="nav centered lang-buttons">
+      <li>
+          <button type="submit" class="btn btn-primary " ng-click="remove_language();">Change Language</button>
+      </li>
+    </ul>
+  </div>
 </div>
