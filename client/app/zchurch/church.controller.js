@@ -1,19 +1,25 @@
 'use strict';
 
 angular.module('biyblApp')
-  .controller('ChurchCtrl', function ($scope, $route, $routeParams, User, bcvParser, $http, dbpGrabber, Auth) {
+  .controller('ChurchCtrl', function ($scope, $route, $routeParams, User, bcvParser, $http, dbpGrabber, Auth, $sce) {
     
     $scope.bcvParser = bcvParser;
     $scope.church = $routeParams.church;
     $scope.church_name = "";
+    $scope.sermonNotes = "";
     $scope.refs = [];
 
     $scope.getChurch = function(callback) {
 	    User.getName({ id: $scope.church }, {
 	    }, function(user) {
 	        console.log(user);
-	    	$scope.church_name = user.church_name;
+            $scope.church_name = user.church_name;
+	    	$scope.sermonNotes = user.sermonNotes;
+            console.log("sermonNotes", user.sermonNotes);
+
 	        $scope.refs = user.passages.split(',');
+            console.log("bcvParser", bcvParser.passages);
+            console.log("bcvParser length", bcvParser.passages.length);
 	        if (callback) callback();
 	    }, function(err) {
 	        if (callback) callback();
@@ -41,9 +47,14 @@ angular.module('biyblApp')
     		console.log("in get_passages");
 	    	bcvParser.set_refs($scope.refs, lang, true);
 	    	console.log("Passages", bcvParser.passages);
+            console.log("bcvParser length", bcvParser.passages.length);
     	});
     };
 
     $scope.getChurch(function(){});
+
+    $scope.to_trusted = function(html_code) {
+        return $sce.trustAsHtml(html_code);
+    };
 
   });

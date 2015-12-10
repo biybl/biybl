@@ -41,6 +41,10 @@ p span.verseno {
     margin: 15px 0px;
 }
 
+.center-align {
+    text-align: center;
+}
+
 .save_msg
 {
     font-size: 1.2em !important;

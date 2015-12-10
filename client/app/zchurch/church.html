@@ -17,23 +17,35 @@
   	</ul>
   </div>
 </div>
-
-<div class="container" ng-show="langu">
+<div class="container" ng-show="langu && bcvParser.passages.length > 0 && bcvParser.passages[0].text != ''">
   <ul class="nav nav-tabs nav-stacked col-md-12 col-lg-12 col-sm-12" ng-repeat="reference in bcvParser.passages">
     <div class="row">
       <li>
-      	<p ng-bind-html="reference.text"></p>
+      	<p ng-bind-html="reference.text" ng-show="bcvParser.passages[$index].text != ''"></p>
+        <p ng-show="bcvParser.passages[$index].text == ''"><img src="/assets/images/ajax-loader.gif" /></p>
       </li>
     </div>
   </ul>
 </div>
 
-<div class="container" ng-show="langu">
+<div class="container" ng-show="langu && bcvParser.passages.length > 0 && bcvParser.passages[0].text != ''">
   <div class="row">
+      <h2>Sermon Notes</h2>
+      <h4 ng-show="sermonNotes == ''" class="no-data-notice">There are currently no saved notes for this church.</h4>
+      <div ng-show="sermonNotes != ''" ng-bind-html="to_trusted(sermonNotes)"></div>
+  </div>
+</div>
+
+<div class="container" ng-show="langu && (bcvParser.passages.length <= 0 || bcvParser.passages[0].text == '')">
+  <div class="row">
+      <h4 class="no-data-notice">There are currently no saved references for this church.</h4>
+  </div>
+</div>
+
+<div class="container" ng-show="langu">
   	<ul class="nav centered lang-buttons">
   		<li>
   	  		<button type="submit" class="btn btn-primary " ng-click="remove_language();">Change Language</button>
   		</li>
   	</ul>
-  </div>
 </div>

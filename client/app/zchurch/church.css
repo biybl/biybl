@@ -24,3 +24,7 @@ ul.lang-buttons li button{
         font-style: italic;
         font-size: 60%;
 }
+
+.no-data-notice {
+	padding-top: 20px;
+}

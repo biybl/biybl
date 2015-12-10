@@ -7,6 +7,7 @@ var crypto = require('crypto');
 var UserSchema = new Schema({
   church_name: String,
   passages: { type: String, default: ''},
+  sermonNotes: { type: String, default: ''},
   name: String,
   email: { type: String, lowercase: true },
   role: {
@@ -40,7 +41,8 @@ UserSchema
       'name': this.name,
       'role': this.role,
       'church_name': this.church_name,
-      'passages': this.passages
+      'passages': this.passages,
+      'sermonNotes': this.sermonNotes
     };
   });
 

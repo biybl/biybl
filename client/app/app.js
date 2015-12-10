@@ -6,8 +6,13 @@ angular.module('biyblApp', [
   'ngSanitize',
   'ngRoute',
   'btford.socket-io',
-  'ui.bootstrap'
-])
+  'ui.bootstrap',
+  'froala'
+]).
+  value('froalaConfig', {
+      toolbarInline: false,
+      placeholderText: 'Add your sermon notes here...'
+  })
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .otherwise({

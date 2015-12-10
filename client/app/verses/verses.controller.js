@@ -22,6 +22,10 @@ angular.module('biyblApp')
     $scope.saving_refs = false;
     $scope.refs_saved = false;
     $scope.refs = [];
+    $scope.sermonNotes = "";
+/*    $scope.froalaOptions = {
+        toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"]
+     }*/
     //$scope.church = 'citychurch';
 
     $scope.getChurch = function(callback) {
@@ -29,6 +33,7 @@ angular.module('biyblApp')
         }, function(user) {
             console.log(user);
             $scope.church_name = user.church_name;
+            $scope.sermonNotes = user.sermonNotes;
             $scope.refs = user.passages.split(',');
             $scope.ref_list = $scope.refs.join(',');
             if (callback) callback();
@@ -67,10 +72,11 @@ angular.module('biyblApp')
             }
         }
 
-        console.log("VersesCtrl/save_refs/final output", cs_list);
+        console.log("VersesCtrl/save_refs/final sermonNotes", $scope.sermonNotes);
 
         User.savePassage({ id: currentUser._id }, {
-          passages: cs_list
+          passages: cs_list,
+          sermonNotes: $scope.sermonNotes
         }, function(user) {
             $scope.saving_refs = false;
             $scope.refs_saved = true;
