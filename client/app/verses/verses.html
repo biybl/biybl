@@ -25,14 +25,24 @@
     <text-angular ng-model="sermonNotes" placeholder="Add your sermon notes here for small groups to access..."></textarea>
   </div>
 </div>
+
+<div class="container">
+  <div class="center-align" ng-show="bcvParser.passages.length > 0 && bcvParser.passages[0].text != ''">
+      <button type="submit" id="save" class="btn btn-primary" ng-click="save_refs()">Save Passage & Notes References</button><br />
+      <span ng-show="saving_refs" class="save_msg"> Saving <img src="/assets/images/ajax-loader.gif" /></span>
+      <span class="glyphicon glyphicon-ok save_msg" ng-show="refs_saved"> <span>Saved</span> </span>
+  </div>
+</div>
+
 <div class="container">
   <div class="row">
       <div class="url-block">
         The URL for your church to publish and use is:
-        <a href="http://biybl.cogiva.com:9000/{{ church }}">http://biybl.cogiva.com:9000/{{ church }}</a>
+        <a href="http://thebible.at/{{ church }}">http://thebible.at/{{ church }}</a>
       </div>
   </div>
 </div>
+
 <div class="container" ng-show="bcvParser.passages.length > 0 && bcvParser.passages[0].text != ''">
   <ul class="nav nav-tabs nav-stacked col-md-12 col-lg-12 col-sm-12" ng-repeat="reference in bcvParser.passages">
     <div class="row">
@@ -53,7 +63,7 @@
 
 <div class="container">
   <div class="center-align" ng-show="bcvParser.passages.length > 0 && bcvParser.passages[0].text != ''">
-      <button type="submit" id="save" class="btn btn-primary" ng-click="save_refs()">Save Passage References</button><br />
+      <button type="submit" id="save" class="btn btn-primary" ng-click="save_refs()">Save Passage & Notes References</button><br />
       <span ng-show="saving_refs" class="save_msg"> Saving <img src="/assets/images/ajax-loader.gif" /></span>
       <span class="glyphicon glyphicon-ok save_msg" ng-show="refs_saved"> <span>Saved</span> </span>
   </div>

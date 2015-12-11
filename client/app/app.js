@@ -7,7 +7,8 @@ angular.module('biyblApp', [
   'ngRoute',
   'btford.socket-io',
   'ui.bootstrap',
-  'textAngular'
+  'textAngular',
+  'vcRecaptcha'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

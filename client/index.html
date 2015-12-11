@@ -14,19 +14,6 @@
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
       <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
-      <link rel="stylesheet" href="../bower_components/froala-wysiwyg-editor/css/froala_editor.min.css" />
-      <link rel="stylesheet" href="../bower_components/froala-wysiwyg-editor/css/froala_style.min.css" />
-      <link rel="stylesheet" href="../bower_components/froala-wysiwyg-editor/css/plugins/char_counter.min.css" />
-      <link rel="stylesheet" href="../bower_components/froala-wysiwyg-editor/css/plugins/code_view.min.css" />
-      <link rel="stylesheet" href="../bower_components/froala-wysiwyg-editor/css/plugins/colors.min.css" />
-      <link rel="stylesheet" href="../bower_components/froala-wysiwyg-editor/css/plugins/emoticons.min.css" />
-      <link rel="stylesheet" href="../bower_components/froala-wysiwyg-editor/css/plugins/file.min.css" />
-      <link rel="stylesheet" href="../bower_components/froala-wysiwyg-editor/css/plugins/fullscreen.min.css" />
-      <link rel="stylesheet" href="../bower_components/froala-wysiwyg-editor/css/plugins/image_manager.min.css" />
-      <link rel="stylesheet" href="../bower_components/froala-wysiwyg-editor/css/plugins/image.min.css" />
-      <link rel="stylesheet" href="../bower_components/froala-wysiwyg-editor/css/plugins/line_breaker.min.css" />
-      <link rel="stylesheet" href="../bower_components/froala-wysiwyg-editor/css/plugins/table.min.css" />
-      <link rel="stylesheet" href="../bower_components/froala-wysiwyg-editor/css/plugins/video.min.css" />
       <link rel="stylesheet" href="../bower_components/textAngular/dist/textAngular.css" />
       <!-- endbower -->
     <!-- endbuild -->
@@ -59,12 +46,12 @@
     <footer class="footer">
       <div class="container">
           <p>
-            Built for ✝  at the <a href="http://www.kingdomcode.uk/hackathon/">C4TK Global Hackathon, London</a> by
-            <a href="https://twitter.com/cogiva">@cogiva</a>,
+            Built for ✝  at the <a href="http://www.kingdomcode.uk/hackathon/">C4TK Global Hackathon, London</a> 2015 by
+            <a href="https://twitter.com/cogiva">@ExpectBrilliant</a>,
             <a href="https://twitter.com/gerv">@gerv</a>,
             <a href="https://twitter.com/DavidFedor">@DavidFedor</a>
              |
-             <a href="hhttps://github.com/biybl/biybl/issues?state=open">Issues</a>
+             <a href="https://github.com/biybl/biybl/issues?state=open">Issues</a>
           </p>
       </div>
     </footer>
@@ -96,32 +83,6 @@
       <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
       <script src="../bower_components/lodash/dist/lodash.compat.js"></script>
       <script src="../bower_components/angular-socket-io/socket.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/froala_editor.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/align.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/char_counter.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/code_beautifier.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/code_view.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/colors.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/emoticons.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/entities.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/file.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/font_family.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/font_size.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/fullscreen.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/image.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/image_manager.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/inline_style.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/line_breaker.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/link.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/lists.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/paragraph_format.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/paragraph_style.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/quote.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/save.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/table.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/url.min.js"></script>
-      <script src="../bower_components/froala-wysiwyg-editor/js/plugins/video.min.js"></script>
-      <script src="../bower_components/angular-froala/src/angular-froala.js"></script>
       <script src="../bower_components/rangy/rangy-core.js"></script>
       <script src="../bower_components/rangy/rangy-classapplier.js"></script>
       <script src="../bower_components/rangy/rangy-highlighter.js"></script>
@@ -131,8 +92,12 @@
       <script src="../bower_components/textAngular/dist/textAngular.js"></script>
       <script src="../bower_components/textAngular/dist/textAngular-sanitize.js"></script>
       <script src="../bower_components/textAngular/dist/textAngularSetup.js"></script>
+      <script src="../bower_components/angular-recaptcha/release/angular-recaptcha.js"></script>
       <!-- endbower -->
       <script src="socket.io-client/socket.io.js"></script>
+      <script src="../bower_components/bootstrap/js/collapse.js"></script>
+      <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
+
     <!-- endbuild -->
 
 
