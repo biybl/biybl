@@ -7,12 +7,8 @@ angular.module('biyblApp', [
   'ngRoute',
   'btford.socket-io',
   'ui.bootstrap',
-  'froala'
-]).
-  value('froalaConfig', {
-      toolbarInline: false,
-      placeholderText: 'Add your sermon notes here...'
-  })
+  'textAngular'
+])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .otherwise({
