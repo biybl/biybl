@@ -1,0 +1,30 @@
+ul.lang-buttons {
+	margin-top: 12px;
+}
+
+ul.lang-buttons li button{
+	min-width: 220px;
+	margin: 4px;
+        font-weight: bold;
+        text-align: left;
+        font-size: 110%;
+}
+
+@media (max-width: 797px) {
+	h1 {
+		font-size: 1.8em !important;
+	}
+	#banner {
+		margin-top: 0px !important;
+		margin-bottom: 0px !important;
+	}
+}
+
+.attribution {
+        font-style: italic;
+        font-size: 60%;
+}
+
+.no-data-notice {
+	padding-top: 20px;
+}

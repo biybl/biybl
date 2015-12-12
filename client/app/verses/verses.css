@@ -1,0 +1,63 @@
+.thing-form {
+    margin: 20px 0;
+}
+
+#banner {
+    border-bottom: none;
+    margin-top: -20px;
+}
+
+#banner h1 {
+    font-size: 60px;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 70px;
+    border-top: 1px solid #E5E5E5;
+}
+
+.navbar-text {
+    margin-left: 15px;
+}
+
+.centered {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+p span.verseno {
+    vertical-align: super;
+    padding: 0px 3px;
+    font-size: 0.8em;
+}
+
+.right-align {
+    text-align: right;
+    margin: 15px 0px;
+}
+
+.center-align {
+    text-align: center;
+}
+
+.save_msg
+{
+    font-size: 1.2em !important;
+    font-weight: bold  !important;
+    padding: 20px  !important;
+    color: #999 !important;
+    vertical-align: middle;
+}
+
+.save_msg span{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.btn-toolbar > .btn, .btn-toolbar > .btn-group, .btn-toolbar > .input-group {
+    margin: 0px 5px 5px 5px;
+}

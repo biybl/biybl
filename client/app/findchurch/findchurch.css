@@ -1,0 +1,43 @@
+.thing-form {
+    margin: 20px 0;
+}
+
+#banner {
+    border-bottom: none;
+    margin-top: -20px;
+}
+
+#banner h1 {
+    font-size: 60px;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.input-group.full-width {
+    width: 100% !important;
+}
+
+.input-group.full-width input {
+  border-radius:4px !important;
+}
+
+.footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 70px;
+    border-top: 1px solid #E5E5E5;
+}
+
+.navbar-text {
+    margin-left: 15px;
+}
+
+.centered {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.church-list  > li > a {
+    padding: 10px 0px !important;
+}

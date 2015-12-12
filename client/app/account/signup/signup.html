@@ -1,0 +1,97 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>Bible In Your Best Language</h1>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Church Signup</h1>
+    </div>
+    <div class="col-sm-12">
+      <form class="form" name="form" ng-submit="register(form)" novalidate>
+
+        <div class="form-group" ng-class="{ 'has-success': form.church_name.$valid && submitted,
+                                            'has-error': form.church_name.$invalid && submitted }">
+          <label>Church Full Name</label>
+          <p>If your church has a name which is common, include a geographical term, e.g. "King's Church, Sheffield"</p>
+          <input type="text" name="church_name" class="form-control" ng-model="user.church_name"
+                 required ng-change="fill_un()"/>
+          <p class="help-block" ng-show="form.church_name.$error.required && submitted">
+            A church name is required
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
+                                            'has-error': form.name.$invalid && submitted }">
+          <label>Short Name
+            <span ng-show="checking_name"><img src="/assets/images/ajax-loader.gif" /></span>
+            <span class="glyphicon glyphicon-ok green" ng-show="form.name.$dirty && un_ok"></span>
+            <span class="glyphicon glyphicon-remove red" ng-show="form.name.$dirty && un_ok"></span>
+          </label>
+          <p>This appears in your church's URL, i.e. <tt>http://biybl.cogiva.com/<i>churchname</i></tt></p>
+          <input type="text" name="name" class="form-control" ng-model="user.name" ng-disabled="checking_name"
+                 required ng-pattern="/^[a-zA-Z0-9]+$/" ng-minlength=2 ng-maxlength=64 ng-change="un_change()"/>
+          <p class="help-block" ng-show="form.name.$error.required && submitted">
+            A short name (username) is required
+          </p>
+          <p class="help-block" ng-show="form.name.$error.pattern && submitted">
+            A short name (username) must only letters and numbers (no spaces)
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
+                                            'has-error': form.email.$invalid && submitted }">
+          <label>Email</label>
+          <p>You'll use this to log in each week and change the passage(s).
+          Better to use a generic church email address rather than a personal one.</p>
+          <input type="email" name="email" class="form-control" ng-model="user.email"
+                 required
+                 mongoose-error/>
+          <p class="help-block" ng-show="form.email.$error.email && submitted">
+            Doesn't look like a valid email.
+          </p>
+          <p class="help-block" ng-show="form.email.$error.required && submitted">
+            What's your email address?
+          </p>
+          <p class="help-block" ng-show="form.email.$error.mongoose">
+            {{ errors.email }}
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
+                                            'has-error': form.password.$invalid && submitted }">
+          <label>Password</label>
+
+          <input type="password" name="password" class="form-control" ng-model="user.password"
+                 ng-minlength="3"
+                 required
+                 mongoose-error/>
+          <p class="help-block"
+             ng-show="(form.password.$error.minlength || form.password.$error.required) && submitted">
+            Password must be at least 3 characters.
+          </p>
+          <p class="help-block" ng-show="form.password.$error.mongoose">
+            {{ errors.password }}
+          </p>
+        </div>
+
+        <div class="form-group"
+            vc-recaptcha
+            key="'6LdC4hITAAAAALnSQQDl9S5PxEzVDIFm5aym3J5U'"
+        ></div>
+
+        <div>
+          <button class="btn btn-inverse btn-lg btn-login" type="submit">
+            Sign Up
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+  <hr>
+</div>

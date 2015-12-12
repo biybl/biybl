@@ -1,0 +1,71 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>Bible In Your Best Language</h1>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <form class="thing-form">
+      <h3>Enter the passage reference(s) for this week's meeting:</h3>
+      <p class="input-group">
+        <input type="text" class="form-control" placeholder="e.g. John 3:16, Ephesians 2:1-10" ng-model="ref_list">
+        <span class="input-group-btn">
+          <button type="submit" class="btn btn-primary" ng-click="get_refs()">Get Passage Text</button>
+        </span>
+      </p>
+    </form>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <h3>Sermon Notes</h3>
+    <text-angular ng-model="sermonNotes" placeholder="Add your sermon notes here for small groups to access..."></textarea>
+  </div>
+</div>
+
+<div class="container">
+  <div class="center-align" ng-show="bcvParser.passages.length > 0 && bcvParser.passages[0].text != ''">
+      <button type="submit" id="save" class="btn btn-primary" ng-click="save_refs()">Save Passage & Notes References</button><br />
+      <span ng-show="saving_refs" class="save_msg"> Saving <img src="/assets/images/ajax-loader.gif" /></span>
+      <span class="glyphicon glyphicon-ok save_msg" ng-show="refs_saved"> <span>Saved</span> </span>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+      <div class="url-block">
+        The URL for your church to publish and use is:
+        <a href="http://thebible.at/{{ church }}">http://thebible.at/{{ church }}</a>
+      </div>
+  </div>
+</div>
+
+<div class="container" ng-show="bcvParser.passages.length > 0 && bcvParser.passages[0].text != ''">
+  <ul class="nav nav-tabs nav-stacked col-md-12 col-lg-12 col-sm-12" ng-repeat="reference in bcvParser.passages">
+    <div class="row">
+      <li>
+      	<p ng-bind-html="reference.text" ng-show="bcvParser.passages[$index].text != ''"></p>
+        <p ng-show="bcvParser.passages[$index].text == ''"><img src="/assets/images/ajax-loader.gif" /></p>
+      </li>
+    </div>
+  </ul>
+</div>
+
+
+<div class="container" ng-show="bcvParser.passages.length <= 0 || bcvParser.passages[0].text == ''">
+  <div class="row">
+      <h4 class="no-data-notice">There are currently no saved references for this church.</h4>
+  </div>
+</div>
+
+<div class="container">
+  <div class="center-align" ng-show="bcvParser.passages.length > 0 && bcvParser.passages[0].text != ''">
+      <button type="submit" id="save" class="btn btn-primary" ng-click="save_refs()">Save Passage & Notes References</button><br />
+      <span ng-show="saving_refs" class="save_msg"> Saving <img src="/assets/images/ajax-loader.gif" /></span>
+      <span class="glyphicon glyphicon-ok save_msg" ng-show="refs_saved"> <span>Saved</span> </span>
+  </div>
+</div>
+

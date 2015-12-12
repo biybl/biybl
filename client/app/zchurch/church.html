@@ -1,0 +1,51 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>Welcome to {{church_name}}</h1>
+  </div>
+</header>
+
+
+<div class="container" ng-hide="langu">
+  <div class="row">
+    <p class="centered">Please choose your language:</p>
+  	<ul class="nav centered lang-buttons">
+  		<li ng-repeat="(key, language) in dbpGrabber.langmap | orderBy: 'key' ">
+  		    <button type="submit" class="btn btn-primary" ng-click="set_language(key);">{{ key }} - {{ language[2] }}</button>
+  		</li>
+  	</ul>
+  </div>
+</div>
+<div class="container" ng-show="langu && bcvParser.passages.length > 0 && bcvParser.passages[0].text != ''">
+  <ul class="nav nav-tabs nav-stacked col-md-12 col-lg-12 col-sm-12" ng-repeat="reference in bcvParser.passages">
+    <div class="row">
+      <li>
+      	<p ng-bind-html="reference.text" ng-show="bcvParser.passages[$index].text != ''"></p>
+        <p ng-show="bcvParser.passages[$index].text == ''"><img src="/assets/images/ajax-loader.gif" /></p>
+      </li>
+    </div>
+  </ul>
+</div>
+
+<div class="container" ng-show="langu && bcvParser.passages.length > 0 && bcvParser.passages[0].text != ''">
+  <div class="row">
+      <h2>Sermon Notes</h2>
+      <h4 ng-show="sermonNotes == ''" class="no-data-notice">There are currently no saved notes for this church.</h4>
+      <div ng-show="sermonNotes != ''" ng-bind-html="to_trusted(sermonNotes)"></div>
+  </div>
+</div>
+
+<div class="container" ng-show="langu && (bcvParser.passages.length <= 0 || bcvParser.passages[0].text == '')">
+  <div class="row">
+      <h4 class="no-data-notice">There are currently no saved references for this church.</h4>
+  </div>
+</div>
+
+<div class="container" ng-show="langu">
+  	<ul class="nav centered lang-buttons">
+  		<li>
+  	  		<button type="submit" class="btn btn-primary " ng-click="remove_language();">Change Language</button>
+  		</li>
+  	</ul>
+</div>

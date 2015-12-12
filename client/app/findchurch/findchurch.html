@@ -1,0 +1,27 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>Bible In Your Best Language</h1>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <form class="thing-form">
+      <h3>Search church list</h3>
+      <p class="input-group full-width">
+        <input type="text" class="form-control" placeholder="Search" ng-model="searchKeyword">
+      </p>
+    </form>
+  </div>
+  <div class="row">
+      <h1 class="page-header">Churches</h1>
+      <ul class="nav nav-tabs nav-stacked church-list col-md-12 col-lg-12 col-sm-12" ng-repeat="church in churches | orderBy: 'church_name' | filter:searchKeyword:strict ">
+        <li>
+        	<a href="/{{church.name}}">{{church.church_name}} ({{church.name}}) &raquo;</a>
+        </li>
+      </ul>
+  </div>
+
+</div>
