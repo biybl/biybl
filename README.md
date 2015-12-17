@@ -17,9 +17,9 @@ Once you have these installed on the development / production machine you can ge
 
 To get a copy of the application you will need to clone the repository and install the required packages. Do the following on the command line:
 
-'git clone https://github.com/biybl/biybl.git' 
-'npm install'
-'bower install'
+`git clone https://github.com/biybl/biybl.git`  
+`npm install`  
+`bower install`  
 
 ## Running the app
 
