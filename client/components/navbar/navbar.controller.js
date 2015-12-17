@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('biyblApp')
-  .controller('NavbarCtrl', function ($scope, $location, Auth) {
+  .controller('NavbarCtrl', function ($scope, $location, Auth, cobrand) {
     $scope.menu = [{
       'title': 'Home',
       'link': '/'
@@ -17,6 +17,7 @@ angular.module('biyblApp')
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.isAdmin = Auth.isAdmin;
     $scope.getCurrentUser = Auth.getCurrentUser;
+    $scope.cobrand = cobrand;
 
     $scope.logout = function() {
       Auth.logout();

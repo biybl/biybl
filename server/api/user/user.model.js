@@ -10,6 +10,7 @@ var UserSchema = new Schema({
   sermonNotes: { type: String, default: ''},
   name: String,
   email: { type: String, lowercase: true },
+  logo: String,
   role: {
     type: String,
     default: 'user'
@@ -44,7 +45,8 @@ UserSchema
       'church_name': this.church_name,
       'passages': this.passages,
       'sermonNotes': this.sermonNotes,
-      'lang_sub': this.lang_sub
+      'lang_sub': this.lang_sub,
+      'logo': this.logo
     };
   });
 

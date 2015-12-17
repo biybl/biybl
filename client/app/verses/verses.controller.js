@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('biyblApp')
-  .controller('VersesCtrl', function ($scope, bcvParser, dbpGrabber, $http, User, $cookieStore, $timeout) {
+  .controller('VersesCtrl', function ($scope, bcvParser, dbpGrabber, $http, User, $cookieStore, $timeout, $rootScope) {
     
     var currentUser = {};
     if($cookieStore.get('token')) {
@@ -19,13 +19,14 @@ angular.module('biyblApp')
 
     $scope.bcvParser = bcvParser;
     $scope.dbpGrabber = dbpGrabber;
-
+    $scope.logo = "";
     $scope.ref_list = "";
     $scope.saving_refs = false;
     $scope.refs_saved = false;
     $scope.refs = [];
     $scope.sermonNotes = "";
     $scope.langSub = "";
+    $scope.globalURL = $rootScope.globalURL;
 
 /*    $scope.froalaOptions = {
         toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"]
@@ -39,6 +40,7 @@ angular.module('biyblApp')
             $scope.church_name = user.church_name;
             $scope.sermonNotes = user.sermonNotes;
             $scope.langSub = user.lang_sub;
+            $scope.logo = user.logo;
             $scope.refs = user.passages.split(',');
             $scope.ref_list = $scope.refs.join(',');
             console.log("user.lang_sub", user.lang_sub);
@@ -84,7 +86,8 @@ angular.module('biyblApp')
         User.savePassage({ id: currentUser._id }, {
           passages: cs_list,
           sermonNotes: $scope.sermonNotes,
-          langSub: $scope.langSub
+          langSub: $scope.langSub,
+          logo: $scope.logo
         }, function(user) {
             $scope.saving_refs = false;
             $scope.refs_saved = true;

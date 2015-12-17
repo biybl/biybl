@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('biyblApp')
-  .controller('ChurchCtrl', function ($scope, $route, $routeParams, User, bcvParser, $http, dbpGrabber, Auth, $sce) {
+  .controller('ChurchCtrl', function ($scope, $route, $routeParams, User, bcvParser, $http, dbpGrabber, Auth, $sce, cobrand) {
     
     $scope.bcvParser = bcvParser;
     $scope.church = $routeParams.church;
@@ -9,6 +9,7 @@ angular.module('biyblApp')
     $scope.sermonNotes = "";
     $scope.refs = [];
     $scope.langSub = "";
+    $scope.cobrand = cobrand;
 
     $scope.getChurch = function(callback) {
 	    User.getName({ id: $scope.church }, {
@@ -17,6 +18,9 @@ angular.module('biyblApp')
             $scope.church_name = user.church_name;
 	    	$scope.sermonNotes = user.sermonNotes;
             $scope.langSub = user.lang_sub;
+            if (user.logo) {
+                $scope.cobrand.setBrand(user.logo);
+            }
             console.log("langSub", $scope.langSub);
 
 	        $scope.refs = user.passages.split(',');

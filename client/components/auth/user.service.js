@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('biyblApp')
-  .factory('User', function ($resource) {
+  .factory('User', function ($resource, $rootScope) {
     return $resource('/api/users/:id/:controller', {
       id: '@_id'
     },

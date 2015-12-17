@@ -47,6 +47,11 @@ angular.module('biyblApp', [
   })
 
   .run(function ($rootScope, $location, Auth) {
+    
+    //set global api URL
+    $rootScope.globalURL = "http://thebible.at";
+    //$rootScope.globalURL = "http://localhost:9000";
+
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$routeChangeStart', function (event, next) {
       Auth.isLoggedInAsync(function(loggedIn) {

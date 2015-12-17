@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('biyblApp')
-  .controller('SignupCtrl', function ($scope, Auth, $location, $timeout) {
+  .controller('SignupCtrl', function ($scope, Auth, $location, $timeout, $rootScope) {
 
     $scope.user = {
       church_name: "",
@@ -12,6 +12,7 @@ angular.module('biyblApp')
     $scope.errors = {};
     $scope.checking_name = false;
     $scope.un_ok = false;
+    $scope.globalURL = $rootScope.globalURL;
 
     var un_timer;
     var cname_timer;

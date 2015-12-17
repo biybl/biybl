@@ -15,8 +15,14 @@ ul.lang-buttons li button{
 		font-size: 1.8em !important;
 	}
 	#banner {
-		/*margin-top: 0px !important;*/
-		margin-bottom: 0px !important;
+		margin-top: 52px !important;
+		margin-bottom: px !important;
+	}
+	
+	#banner.branded {
+		background: none;
+	    height: 1px;
+	    padding: 0px;
 	}
 }
 

@@ -1,11 +1,10 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<header class="hero-unit" id="banner">
-  <div class="container">
+<header class="hero-unit" id="banner" ng-class="{ branded: cobrand.branded }">
+  <div class="container" ng-show="!cobrand.branded">
     <h1>Welcome to {{church_name}}</h1>
   </div>
 </header>
-
 
 <div class="container" ng-hide="langu">
   <div class="row">
