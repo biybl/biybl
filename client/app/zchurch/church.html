@@ -10,6 +10,12 @@
 <div class="container" ng-hide="langu">
   <div class="row">
     <p class="centered">Please choose your language:</p>
+    <ul class="nav centered lang-buttons">
+      <li ng-repeat="(key, language) in filterLangSub(dbpGrabber.langmap) | orderBy: 'key' ">
+          <button type="submit" class="btn btn-primary" ng-click="set_language(key);">{{ key }} - {{ language[2] }}</button>
+      </li>
+    </ul>
+    <hr>
   	<ul class="nav centered lang-buttons">
   		<li ng-repeat="(key, language) in dbpGrabber.langmap | orderBy: 'key' ">
   		    <button type="submit" class="btn btn-primary" ng-click="set_language(key);">{{ key }} - {{ language[2] }}</button>

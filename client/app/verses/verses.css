@@ -61,3 +61,8 @@ p span.verseno {
 .btn-toolbar > .btn, .btn-toolbar > .btn-group, .btn-toolbar > .input-group {
     margin: 0px 5px 5px 5px;
 }
+
+.checkbox-li {
+    text-align: left;
+    padding: 3px;
+}

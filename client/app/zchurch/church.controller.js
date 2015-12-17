@@ -8,6 +8,7 @@ angular.module('biyblApp')
     $scope.church_name = "";
     $scope.sermonNotes = "";
     $scope.refs = [];
+    $scope.langSub = "";
 
     $scope.getChurch = function(callback) {
 	    User.getName({ id: $scope.church }, {
@@ -15,7 +16,8 @@ angular.module('biyblApp')
 	        console.log(user);
             $scope.church_name = user.church_name;
 	    	$scope.sermonNotes = user.sermonNotes;
-            console.log("sermonNotes", user.sermonNotes);
+            $scope.langSub = user.lang_sub;
+            console.log("langSub", $scope.langSub);
 
 	        $scope.refs = user.passages.split(',');
             console.log("bcvParser", bcvParser.passages);
@@ -35,14 +37,15 @@ angular.module('biyblApp')
 
     console.log($scope.dbpGrabber.langmap);
 
-
     $scope.remove_language = function() {
     	$scope.langu = null;
+        localStorage.removeItem('biyblLangu');
     };
 
     $scope.set_language = function(lang) {
     	$scope.langu = lang;
     	console.log("lang", lang);
+        localStorage.biyblLangu = lang;
     	$scope.getChurch(function() {
     		console.log("in get_passages");
 	    	bcvParser.set_refs($scope.refs, lang, true);
@@ -53,8 +56,24 @@ angular.module('biyblApp')
 
     $scope.getChurch(function(){});
 
+    // Check localstorage for language 
+    if (localStorage.biyblLangu)  {
+      $scope.set_language(localStorage.biyblLangu);
+      console.log("setting LS langu:", localStorage.biyblLangu);
+    }
+
     $scope.to_trusted = function(html_code) {
         return $sce.trustAsHtml(html_code);
+    };
+
+    $scope.filterLangSub = function(items) {
+        var result = {};
+        angular.forEach(items, function(value, key) {
+            if ($scope.langSub.indexOf(key) > -1) {
+                result[key] = value;
+            }
+        });
+        return result;
     };
 
   });

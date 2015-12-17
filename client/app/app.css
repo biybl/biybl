@@ -52,3 +52,11 @@
 p:-moz-dir(rtl) {
   text-align: right;
 }
+
+
+@media (max-width: 768px) {
+    .row {
+        margin: 10px 0px;
+        padding: 10px 15px 25px !important;
+    }
+}

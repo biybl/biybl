@@ -91,10 +91,12 @@ exports.savePassage = function(req, res, next) {
   var userId = req.user._id;
   var passages = String(req.body.passages);
   var sermonNotes = String(req.body.sermonNotes);
-
+  var lang_sub = String(req.body.langSub);
+  
   User.findById(userId, function (err, user) {
       user.passages = passages;
       user.sermonNotes = sermonNotes;
+      user.lang_sub = lang_sub;
       user.save(function(err) {
         if (err) return validationError(res, err);
         res.status(200).send('OK');

@@ -28,7 +28,7 @@
 
 <div class="container">
   <div class="center-align" ng-show="bcvParser.passages.length > 0 && bcvParser.passages[0].text != ''">
-      <button type="submit" id="save" class="btn btn-primary" ng-click="save_refs()">Save Passage & Notes References</button><br />
+      <button type="submit" id="save" class="btn btn-primary" ng-click="save_refs()">Save Passage, Notes & Languages</button><br />
       <span ng-show="saving_refs" class="save_msg"> Saving <img src="/assets/images/ajax-loader.gif" /></span>
       <span class="glyphicon glyphicon-ok save_msg" ng-show="refs_saved"> <span>Saved</span> </span>
   </div>
@@ -54,6 +54,18 @@
   </ul>
 </div>
 
+<div class="container">
+  <div class="row">
+    <h4>Choose the most popular languages for your church.  These will be at the top of the list for selection by users.</h4>
+    <ul class="nav centered lang-buttons">
+      <li ng-repeat="(key, language) in dbpGrabber.langmap | orderBy: 'key' " class="col-md-3 checkbox-li">
+          <input type="checkbox" ng-model="$index" ng-click="appendList(key);" ng-checked="langSub.indexOf(key) > -1"> {{ language[2] }} ({{ key }})
+          <!--button type="submit" class="btn btn-primary" ng-click="set_language(key);">{{ key }} - {{ language[2] }}</button-->
+      </li>
+    </ul>
+  </div>
+</div>
+
 
 <div class="container" ng-show="bcvParser.passages.length <= 0 || bcvParser.passages[0].text == ''">
   <div class="row">
@@ -63,7 +75,7 @@
 
 <div class="container">
   <div class="center-align" ng-show="bcvParser.passages.length > 0 && bcvParser.passages[0].text != ''">
-      <button type="submit" id="save" class="btn btn-primary" ng-click="save_refs()">Save Passage & Notes References</button><br />
+      <button type="submit" id="save" class="btn btn-primary" ng-click="save_refs()">Save Passage, Notes & Languages</button><br />
       <span ng-show="saving_refs" class="save_msg"> Saving <img src="/assets/images/ajax-loader.gif" /></span>
       <span class="glyphicon glyphicon-ok save_msg" ng-show="refs_saved"> <span>Saved</span> </span>
   </div>

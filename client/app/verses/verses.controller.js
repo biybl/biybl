@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('biyblApp')
-  .controller('VersesCtrl', function ($scope, bcvParser, $http, User, $cookieStore, $timeout) {
+  .controller('VersesCtrl', function ($scope, bcvParser, dbpGrabber, $http, User, $cookieStore, $timeout) {
     
     var currentUser = {};
     if($cookieStore.get('token')) {
@@ -18,11 +18,15 @@ angular.module('biyblApp')
     }
 
     $scope.bcvParser = bcvParser;
+    $scope.dbpGrabber = dbpGrabber;
+
     $scope.ref_list = "";
     $scope.saving_refs = false;
     $scope.refs_saved = false;
     $scope.refs = [];
     $scope.sermonNotes = "";
+    $scope.langSub = "";
+
 /*    $scope.froalaOptions = {
         toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"]
      }*/
@@ -34,8 +38,11 @@ angular.module('biyblApp')
             console.log(user);
             $scope.church_name = user.church_name;
             $scope.sermonNotes = user.sermonNotes;
+            $scope.langSub = user.lang_sub;
             $scope.refs = user.passages.split(',');
             $scope.ref_list = $scope.refs.join(',');
+            console.log("user.lang_sub", user.lang_sub);
+            console.log("user", user);
             if (callback) callback();
         }, function(err) {
             if (callback) callback();
@@ -76,7 +83,8 @@ angular.module('biyblApp')
 
         User.savePassage({ id: currentUser._id }, {
           passages: cs_list,
-          sermonNotes: $scope.sermonNotes
+          sermonNotes: $scope.sermonNotes,
+          langSub: $scope.langSub
         }, function(user) {
             $scope.saving_refs = false;
             $scope.refs_saved = true;
@@ -84,6 +92,24 @@ angular.module('biyblApp')
         }, function(err) {
             console.log(err);
         });
+    };
+
+    $scope.appendList = function(langKey) {
+        // If it's on the list remove
+        if ($scope.langSub.indexOf(langKey) > -1) {
+            console.log("in the top if");
+            console.log("langKey", langKey);
+            console.log("$scope.langsub", $scope.langSub);
+            $scope.langSub = $scope.langSub.replace(langKey,"");
+        } else {
+            console.log("in the bottom else");
+            console.log("langKey", langKey);
+            console.log("$scope.langsub", $scope.langSub);
+            $scope.langSub = $scope.langSub + " " + langKey;
+        }
+        $scope.langSub = $scope.langSub.trim();
+        console.log("LangSub at end of function:", $scope.langSub);      
+        $scope.save_refs();
     };
 
   });

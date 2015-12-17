@@ -19,10 +19,8 @@ angular.module('biyblApp')
         // put refs in $scope_refs;
         $scope.refs = [];
         for(var i=0; i< bcvParser.passages.length; i++) {
-          console.log("i", i);
           $scope.refs.push(bcvParser.passages[i]['ref']);
         }
-        console.log("Scope.refs", $scope.refs);
         if ($scope.langu) {
           $scope.set_language($scope.langu);
         }
@@ -31,11 +29,19 @@ angular.module('biyblApp')
 
     $scope.remove_language = function() {
       $scope.langu = null;
+      localStorage.biyblLangu = null;
     };
 
     $scope.set_language = function(lang) {
       $scope.langu = lang;
+      localStorage.biyblLangu = lang;
       bcvParser.set_refs($scope.refs, lang, true);
     };
 
+    // Check localstorage for language 
+    if (localStorage.biyblLangu)  {
+      $scope.set_language(localStorage.biyblLangu);
+      console.log("setting LS langu:", localStorage.biyblLangu);
+    }
+    
   });

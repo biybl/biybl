@@ -14,6 +14,7 @@ var UserSchema = new Schema({
     type: String,
     default: 'user'
   },
+  lang_sub: String,
   hashedPassword: String,
   provider: String,
   salt: String
@@ -42,7 +43,8 @@ UserSchema
       'role': this.role,
       'church_name': this.church_name,
       'passages': this.passages,
-      'sermonNotes': this.sermonNotes
+      'sermonNotes': this.sermonNotes,
+      'lang_sub': this.lang_sub
     };
   });
 
