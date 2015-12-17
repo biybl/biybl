@@ -9,7 +9,7 @@
       </button>
       <a href="/" class="navbar-brand"><img src="/assets/images/BIYBL-Logo.png"/></a>
     </div>
-    <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
+    <div class="navbar-collapse sideslide" ng-class="{ showme: !isCollapsed }" id="navbar-main">
       <ul class="nav navbar-nav">
         <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}" ng-click="activeClick(item.link);">
             <a ng-href="{{item.link}}" ng-show="!isLoggedIn()">{{item.title}}</a>
@@ -25,6 +25,17 @@
         <li ng-show="isLoggedIn()" ng-class="{active: isActive('/settings')}" ng-click="activeClick('/settings');"><a href="/settings"><span class="glyphicon glyphicon-cog"></span></a></li>
         <li ng-show="isLoggedIn()" ng-class="{active: isActive('/logout')}" ng-click="activeClick('/logout');"><a href="" ng-click="logout()">Logout</a></li>
       </ul>
+
+      <div class="container sidefooter">
+          <p>
+            Built by <br />
+            <a href="https://twitter.com/cogiva">@ExpectBrilliant</a><br />
+            <a href="https://twitter.com/gerv">@gerv</a><br />
+            <a href="https://twitter.com/DavidFedor">@David Fedor</a><br />
+            -- <br />
+            <a href="https://github.com/biybl/biybl/issues?state=open">Issues</a>
+          </p>
+      </div>
     </div>
   </div>
 </div>

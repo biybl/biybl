@@ -53,10 +53,68 @@ p:-moz-dir(rtl) {
   text-align: right;
 }
 
+.sidefooter {
+    display: none;
+}
 
 @media (max-width: 768px) {
     .row {
         margin: 10px 0px;
         padding: 10px 15px 25px !important;
+    }
+
+    .navbar-toggle {
+        border: 0px !important;
+        float: left !important;
+        border-radius: 0px;
+        margin-left: -15px;
+        color: #0d5198;
+    }
+
+    .navbar-default .navbar-toggle .icon-bar {
+        background-color: #0d5198;
+    }
+
+    .sideslide {
+        min-height: 100% !important;
+        position: fixed;
+        background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+        height: 100%;
+        display: block;
+        width: 200px;
+        left: -200px;       
+        transition: all 0.4s ease 0s; 
+    }
+
+    .sideslide.showme {
+        left: 15px !important;
+        transition: all 0.4s ease 0s;
+    }
+
+    .navbar-default .navbar-nav > li > a {
+        color: #777;
+        font-size: 1.2em !important;
+        padding: 20px 0px;
+        border-bottom: 1px solid #f9f9f9;
+        margin: 0px 15px;
+    }
+
+    .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+        color: #0d5198;
+        background-color: #fff;
+    }
+
+    footer {
+        display: none;
+    }
+
+    .sidefooter {
+        width: 178px;
+        padding: 0px;
+        display: block;
+        bottom: 0px;
+        position: absolute;
+        margin: 5px 0px 10px;
+        bottom: 40px;
     }
 }
