@@ -32,7 +32,7 @@
             <span class="glyphicon glyphicon-ok green" ng-show="form.name.$dirty && un_ok"></span>
             <span class="glyphicon glyphicon-remove red" ng-show="form.name.$dirty && un_ok"></span>
           </label>
-          <p>This appears in your church's URL, i.e. <tt>http://biybl.cogiva.com/<i>churchname</i></tt></p>
+          <p>This appears in your church's URL, i.e. <tt>http://thebible.at/<i>churchname</i></tt></p>
           <input type="text" name="name" class="form-control" ng-model="user.name" ng-disabled="checking_name"
                  required ng-pattern="/^[a-zA-Z0-9]+$/" ng-minlength=2 ng-maxlength=64 ng-change="un_change()"/>
           <p class="help-block" ng-show="form.name.$error.required && submitted">

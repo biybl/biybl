@@ -26,4 +26,10 @@ angular.module('biyblApp')
     $scope.isActive = function(route) {
       return route === $location.path();
     };
+
+    $scope.activeClick = function(route) {
+      if (route === $location.path()) {
+        $scope.isCollapsed = true;
+      }
+    }
   });
