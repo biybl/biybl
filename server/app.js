@@ -31,17 +31,31 @@ app.use(function(req, res, next) {
 });
 
 var server = require('http').createServer(app);
+var server2 = require('http').createServer(app);
+
 var socketio = require('socket.io')(server, {
   serveClient: config.env !== 'production',
   path: '/socket.io-client'
 });
+
+var socketio2 = require('socket.io')(server2, {
+  serveClient: config.env !== 'production',
+  path: '/socket.io-client'
+});
+
 require('./config/socketio')(socketio);
+require('./config/socketio')(socketio2);
+
 require('./config/express')(app);
 require('./routes')(app);
 
 // Start server
 server.listen(config.port, config.ip, function () {
   console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+});
+
+server2.listen(9000, config.ip, function () {
+  console.log('Express server listening on %d, in %s mode', 9000, app.get('env'));
 });
 
 //server.listen(80, config.ip, function () {
